@@ -317,43 +317,7 @@
       margin: 0 !important;
     }
 
-    /* Stats band */
-    .about-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid rgba(255,255,255,0.07);
-      margin-top: 80px;
-    }
-
-    .about-stat {
-      padding: 40px 32px;
-      border-right: 1px solid rgba(255,255,255,0.07);
-      position: relative;
-      transition: background 0.3s;
-    }
-
-    .about-stat:last-child { border-right: none; }
-
-    .about-stat:hover { background: rgba(201,168,76,0.04); }
-
-    .about-stat-number {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3.2rem;
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-
-    .about-stat-label {
-      font-size: 0.72rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .about-tags {
+.about-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -572,69 +536,134 @@
     .performances-section { background: var(--dark-mid); }
 
     .performances-inner {
-      max-width: 900px;
+      max-width: 960px;
       margin: 0 auto;
     }
 
-    .perf-item {
-      display: grid;
-      grid-template-columns: 100px 1fr auto;
-      align-items: start;
-      gap: 32px;
-      padding: 32px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .perf-item:first-of-type { border-top: 1px solid rgba(255,255,255,0.07); }
-
-    .perf-date { text-align: center; }
-
-    .perf-date .month {
-      font-size: 0.65rem;
-      letter-spacing: 3px;
+    .perf-group-label {
+      font-size: 0.68rem;
+      letter-spacing: 4px;
       text-transform: uppercase;
       color: var(--gold);
+      margin: 48px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .perf-group-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(201,168,76,0.2);
+    }
+
+    /* Upcoming featured card */
+    .perf-item-featured {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      align-items: center;
+      gap: 32px;
+      padding: 28px 32px;
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.25);
+      margin-bottom: 8px;
+      transition: background 0.3s;
+    }
+
+    .perf-item-featured:hover { background: rgba(201,168,76,0.10); }
+
+    /* Standard past row */
+    .perf-item {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      align-items: center;
+      gap: 32px;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.2s;
+    }
+
+    .perf-item:first-of-type { border-top: 1px solid rgba(255,255,255,0.06); }
+
+    .perf-date {
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .perf-date .month {
+      font-size: 0.62rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
     }
 
     .perf-date .day {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2.8rem;
+      font-size: 2rem;
       font-weight: 300;
       color: var(--cream);
-      line-height: 1;
+      line-height: 1.1;
+      display: block;
+    }
+
+    .perf-date .year {
+      font-size: 0.62rem;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
     }
 
     .perf-info h4 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 400;
       color: var(--cream);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+      line-height: 1.3;
     }
 
     .perf-info .venue {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
+      margin-bottom: 10px;
     }
 
-    .perf-info .role-badge {
+    .perf-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .role-badge {
       display: inline-block;
-      margin-top: 10px;
       padding: 3px 12px;
       background: rgba(201,168,76,0.12);
       border: 1px solid rgba(201,168,76,0.3);
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--gold);
     }
 
-    .perf-type {
-      font-size: 0.7rem;
+    .perf-type-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 0.60rem;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--text-muted);
-      padding-top: 6px;
+    }
+
+    .perf-type-badge.opera   { color: #b8a0d8; border: 1px solid rgba(184,160,216,0.3); background: rgba(184,160,216,0.08); }
+    .perf-type-badge.mt      { color: #7ec8b0; border: 1px solid rgba(126,200,176,0.3); background: rgba(126,200,176,0.08); }
+    .perf-type-badge.cabaret { color: #c8a87e; border: 1px solid rgba(200,168,126,0.3); background: rgba(200,168,126,0.08); }
+
+    .perf-ticket-link {
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .perf-item-featured,
+      .perf-item { grid-template-columns: 70px 1fr; }
+      .perf-ticket-link { grid-column: 2; }
     }
 
     /* CONTACT */
@@ -722,12 +751,9 @@
       .about-wrapper { padding: 80px 24px 0; }
       .about-top { grid-template-columns: 1fr; }
       .about-photo-col { max-width: 360px; margin: 0 auto; }
-      .about-stats { grid-template-columns: 1fr 1fr; }
-      .rep-grid { grid-template-columns: 1fr; }
+.rep-grid { grid-template-columns: 1fr; }
       .gallery-grid { grid-template-columns: 1fr 1fr; }
       .gallery-item:first-child { grid-row: span 1; }
-      .perf-item { grid-template-columns: 70px 1fr; }
-      .perf-type { display: none; }
       footer { flex-direction: column; gap: 12px; text-align: center; }
     }
 
@@ -769,7 +795,7 @@
       </div>
     </div>
     <div class="hero-photo-side">
-      <img src="images/Julia_Portraits010_web.jpg" alt="Julia Tooker, Soprano">
+      <img src="images/Julia_Portraits008_web.jpg" alt="Julia Tooker, Soprano">
     </div>
   </section>
 
@@ -792,18 +818,15 @@
           <div class="divider"></div>
 
           <p>
-            Julia Tooker is a Puerto Rican-American crossover soprano and May 2026 Vocal Performance graduate of the Eastman School of Music, where she studied under Kathryn Cowdrick. Raised in Rochester, New York and immersed in diverse musical traditions from an early age — including Puerto Rican holiday <em>parrandas</em> with her family — Julia began her classical voice training at thirteen with Diane Abrahamian at the Eastman Community Music School.
+            Julia Tooker is a crossover soprano and May 2026 Vocal Performance graduate of the Eastman School of Music, studying under Kathryn Cowdrick. Raised in Rochester, New York, her musical roots stretch from Puerto Rican holiday parrandas with her family to classical training at the Eastman Community Music School.
           </p>
 
           <div class="about-pullquote">
-            <p>"Equally at home in the grandeur of the opera house and the immediacy of the musical theatre stage."</p>
+            <p>"A rising talent with exceptional range, infectious warmth, and a spirit that lights up every stage she steps onto."</p>
           </div>
 
           <p>
-            Her versatility has been recognized through first-place awards spanning musical theatre, classical, and opera aria categories — including Classical Singer, Schmidt Vocal Arts, American Protégé, and American Virtuoso International. In 2025, Julia made her professional opera debut as an Apprentice Artist with Finger Lakes Opera, performing as Jeannette in <em>The Anonymous Lover</em> and The Page in <em>Rigoletto</em>.
-          </p>
-          <p>
-            She made her Broadway cabaret debut in 2023 as a Rising Star at Ben Cameron's Broadway Sessions at The Green Room 42 in New York City. Julia also explores Spanish classical repertoire and has performed as a featured soloist at Rochester Latino Theatre Company's Hispanic Heritage Events.
+            Julia's versatility has earned her first-place recognition across musical theatre, classical, and opera aria categories in the Classical Singer, Schmidt Vocal Arts, American Protégé, and American Virtuoso International competitions. In 2025, she made her professional opera debut as an Apprentice Artist with Finger Lakes Opera. She has also performed as a featured soloist at Rochester Latino Theatre Company's Hispanic Heritage Events, a reflection of the cultural roots that continue to shape her artistry.
           </p>
 
           <div class="about-tags">
@@ -814,26 +837,6 @@
             <span class="tag">Eastman School of Music</span>
             <span class="tag">Rochester, NY</span>
           </div>
-        </div>
-      </div>
-
-      <!-- Stats band -->
-      <div class="about-stats">
-        <div class="about-stat">
-          <div class="about-stat-number">5×</div>
-          <div class="about-stat-label">First-Place<br>Competition Awards</div>
-        </div>
-        <div class="about-stat">
-          <div class="about-stat-number">7</div>
-          <div class="about-stat-label">Lead Roles in<br>Musical Theatre</div>
-        </div>
-        <div class="about-stat">
-          <div class="about-stat-number">2025</div>
-          <div class="about-stat-label">Professional Opera Debut<br>Finger Lakes Opera</div>
-        </div>
-        <div class="about-stat">
-          <div class="about-stat-number">NYC</div>
-          <div class="about-stat-label">Broadway Sessions<br>Rising Star · 2023</div>
         </div>
       </div>
 
@@ -853,7 +856,7 @@
           <img src="images/FT4A2099copy_web.jpg" alt="Julia Tooker">
         </div>
         <div class="gallery-item" onclick="openLightbox(1)">
-          <img src="images/Julia_Portraits008_web.jpg" alt="Julia Tooker">
+          <img src="images/Julia_Portraits018.jpg" alt="Julia Tooker">
         </div>
         <div class="gallery-item" onclick="openLightbox(2)">
           <img src="images/Julia_Portraits024_web.jpg" alt="Julia Tooker">
@@ -863,9 +866,6 @@
         </div>
         <div class="gallery-item" onclick="openLightbox(4)">
           <img src="images/Julia_Portraits010_web.jpg" alt="Julia Tooker">
-        </div>
-        <div class="gallery-item" onclick="openLightbox(5)">
-          <img src="images/Tooker__Julia_Photo_web.jpg" alt="Julia Tooker">
         </div>
       </div>
     </div>
@@ -898,7 +898,7 @@
             <li><span>The Anonymous Lover — Vachon</span><span class="role">Jeannette</span></li>
             <li><span>Ainadamar — Golijov</span><span class="role">Niña</span></li>
             <li><span>Silent Light — Muhly</span><span class="role">Autghe</span></li>
-            <li><span>&amp; Aeterna</span><span class="role">Aeterna</span></li>
+            <li><span>&amp; Aeterna — Landau</span><span class="role">Aeterna</span></li>
             <li><span>Dido &amp; Aeneas — Purcell</span><span class="role">Warrior</span></li>
           </ul>
         </div>
@@ -924,7 +924,7 @@
           <p>An expressive concert soloist, Julia has performed at venues from Rochester community stages to New York City.</p>
           <ul class="rep-list">
             <li><span>Ben Cameron's Broadway Sessions — NYC</span><span class="role">Rising Star Soloist</span></li>
-            <li><span>Hispanic Heritage Events — Rochester</span><span class="role">Featured Bolero Soloist</span></li>
+            <li><span>Hispanic Heritage Events — Rochester, Buffalo</span><span class="role">Featured Bolero Soloist</span></li>
             <li><span>Finger Lakes Opera at Three Heads Brewery</span><span class="role">Opera/MT Soloist</span></li>
             <li><span>Spanish Classical Repertoire</span><span class="role">Concert Soprano</span></li>
           </ul>
@@ -951,98 +951,122 @@
   <section id="performances" class="performances-section">
     <div class="performances-inner">
       <p class="section-label">Career Highlights</p>
-      <h2 class="section-title">Recent Performances</h2>
+      <h2 class="section-title">Performances</h2>
       <div class="divider"></div>
 
-      <div class="perf-item">
+      <!-- UPCOMING -->
+      <div class="perf-group-label">Upcoming</div>
+
+      <div class="perf-item-featured">
         <div class="perf-date">
-          <div class="month">2025</div>
-          <div class="day" style="font-size:1.8rem;">FLO</div>
+          <span class="month">Apr</span>
+          <span class="day">9–12</span>
+          <span class="year">2026</span>
         </div>
         <div class="perf-info">
-          <h4>Rigoletto — Finger Lakes Opera</h4>
-          <div class="venue">Apprentice Artist Program · Finger Lakes Opera</div>
-          <span class="role-badge">The Page</span>
+          <h4>Die Fledermaus — Eastman Opera Theatre</h4>
+          <div class="venue">Eastman School of Music &nbsp;&middot;&nbsp; Rochester, NY</div>
+          <div class="perf-badges">
+            <span class="role-badge">Ensemble</span>
+            <span class="perf-type-badge opera">Opera</span>
+          </div>
         </div>
-        <div class="perf-type">Opera</div>
+        <div class="perf-ticket-link">
+          <a href="https://boxoffice.esm.rochester.edu/theatre/events/eastman-opera-theatre-presents-die-fledermaus/" target="_blank" rel="noopener" class="btn btn-gold">Get Tickets</a>
+        </div>
+      </div>
+
+      <!-- PAST -->
+      <div class="perf-group-label">Past Highlights</div>
+
+      <div class="perf-item">
+        <div class="perf-date">
+          <span class="month">Summer</span>
+          <span class="day" style="font-size:1.5rem;">2025</span>
+        </div>
+        <div class="perf-info">
+          <h4>Rigoletto &amp; The Anonymous Lover — Finger Lakes Opera</h4>
+          <div class="venue">Apprentice Artist Program &nbsp;&middot;&nbsp; Finger Lakes Opera</div>
+          <div class="perf-badges">
+            <span class="role-badge">The Page / Jeannette</span>
+            <span class="perf-type-badge opera">Opera</span>
+          </div>
+        </div>
       </div>
 
       <div class="perf-item">
         <div class="perf-date">
-          <div class="month">2025</div>
-          <div class="day" style="font-size:1.8rem;">FLO</div>
-        </div>
-        <div class="perf-info">
-          <h4>The Anonymous Lover — Finger Lakes Opera</h4>
-          <div class="venue">Apprentice Artist Program · Finger Lakes Opera</div>
-          <span class="role-badge">Jeannette</span>
-        </div>
-        <div class="perf-type">Opera</div>
-      </div>
-
-      <div class="perf-item">
-        <div class="perf-date">
-          <div class="month">2025</div>
-          <div class="day" style="font-size:1.8rem;">EOT</div>
+          <span class="month">Spring</span>
+          <span class="day" style="font-size:1.5rem;">2025</span>
         </div>
         <div class="perf-info">
           <h4>Ainadamar — Eastman Opera Theatre</h4>
-          <div class="venue">Eastman School of Music</div>
-          <span class="role-badge">Niña</span>
+          <div class="venue">Eastman School of Music &nbsp;&middot;&nbsp; Rochester, NY</div>
+          <div class="perf-badges">
+            <span class="role-badge">Niña</span>
+            <span class="perf-type-badge opera">Opera</span>
+          </div>
         </div>
-        <div class="perf-type">Opera</div>
       </div>
 
       <div class="perf-item">
         <div class="perf-date">
-          <div class="month">2024</div>
-          <div class="day" style="font-size:1.8rem;">NVF</div>
+          <span class="month">Summer</span>
+          <span class="day" style="font-size:1.5rem;">2024</span>
         </div>
         <div class="perf-info">
           <h4>Dido &amp; Aeneas / &amp; Aeterna — The New Voice Festival</h4>
-          <div class="venue">The New Voice Festival · Opera/MT Crossover Program</div>
-          <span class="role-badge">Warrior / Aeterna</span>
+          <div class="venue">The New Voice Festival &nbsp;&middot;&nbsp; Opera/MT Crossover Program</div>
+          <div class="perf-badges">
+            <span class="role-badge">Warrior / Aeterna</span>
+            <span class="perf-type-badge opera">Opera</span>
+          </div>
         </div>
-        <div class="perf-type">Opera</div>
       </div>
 
       <div class="perf-item">
         <div class="perf-date">
-          <div class="month">2024</div>
-          <div class="day" style="font-size:1.8rem;">EOT</div>
+          <span class="month">Fall</span>
+          <span class="day" style="font-size:1.5rem;">2024</span>
         </div>
         <div class="perf-info">
           <h4>Silent Light — Eastman Opera Theatre</h4>
-          <div class="venue">Eastman School of Music</div>
-          <span class="role-badge">Autghe</span>
+          <div class="venue">Eastman School of Music &nbsp;&middot;&nbsp; Rochester, NY</div>
+          <div class="perf-badges">
+            <span class="role-badge">Autghe</span>
+            <span class="perf-type-badge opera">Opera</span>
+          </div>
         </div>
-        <div class="perf-type">Opera</div>
       </div>
 
       <div class="perf-item">
         <div class="perf-date">
-          <div class="month">2023</div>
-          <div class="day" style="font-size:1.8rem;">NYC</div>
+          <span class="month">May</span>
+          <span class="day" style="font-size:1.5rem;">2023</span>
         </div>
         <div class="perf-info">
           <h4>Ben Cameron's Broadway Sessions</h4>
-          <div class="venue">The Green Room 42 · New York City</div>
-          <span class="role-badge">Rising Star Soloist</span>
+          <div class="venue">The Green Room 42 &nbsp;&middot;&nbsp; New York City</div>
+          <div class="perf-badges">
+            <span class="role-badge">Rising Star Soloist</span>
+            <span class="perf-type-badge cabaret">Cabaret</span>
+          </div>
         </div>
-        <div class="perf-type">Cabaret</div>
       </div>
 
       <div class="perf-item">
         <div class="perf-date">
-          <div class="month">2021</div>
-          <div class="day" style="font-size:1.8rem;">OFC</div>
+          <span class="month">Fall</span>
+          <span class="day" style="font-size:1.5rem;">2021</span>
         </div>
         <div class="perf-info">
           <h4>The Phantom of the Opera — OFC Creations Theatre Center</h4>
-          <div class="venue">OFC Creations Theatre Center · Rochester, NY</div>
-          <span class="role-badge">Christine Daaé</span>
+          <div class="venue">OFC Creations Theatre Center &nbsp;&middot;&nbsp; Rochester, NY</div>
+          <div class="perf-badges">
+            <span class="role-badge">Christine Daaé</span>
+            <span class="perf-type-badge mt">Musical Theatre</span>
+          </div>
         </div>
-        <div class="perf-type">Musical Theatre</div>
       </div>
 
     </div>
@@ -1052,19 +1076,19 @@
   <section id="contact" class="contact-section">
     <div class="contact-inner">
       <p class="section-label">Get in Touch</p>
-      <h2 class="section-title">Bookings &amp;<br>Enquiries</h2>
+      <h2 class="section-title">Bookings &amp;<br>Inquiries</h2>
       <div class="divider" style="margin: 28px auto;"></div>
       <p>
-        Julia is available for opera productions, musical theatre, orchestral concerts, cabarets, galas, Hispanic heritage events, and private engagements. She welcomes enquiries from directors, conductors, producers, and event organizers.
+        Julia is available for opera productions, musical theatre, orchestral concerts, cabarets, galas, Hispanic heritage events, and private engagements. She welcomes inquiries from directors, conductors, producers, and event organizers.
       </p>
-      <a href="mailto:contact@juliatooker.com" class="contact-email">contact@juliatooker.com</a>
+      <a href="mailto:contact@julia-tooker.com" class="contact-email">contact@julia-tooker.com</a>
       <br>
       <a href="#performances" class="btn btn-gold">View Full Calendar</a>
       <div class="social-links">
-        <a href="#">Instagram</a>
-        <a href="#">YouTube</a>
-        <a href="#">Facebook</a>
-        <a href="#">LinkedIn</a>
+        <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.youtube.com/@juliatooker714" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener">TikTok</a>
       </div>
     </div>
   </section>
@@ -1073,17 +1097,15 @@
   <footer>
     <span class="footer-logo">Julia Tooker</span>
     <p>&copy; 2026 Julia Tooker &middot; Soprano &middot; All rights reserved</p>
-    <p>Site by design</p>
   </footer>
 
   <script>
     const photos = [
       'images/FT4A2099copy_web.jpg',
-      'images/Julia_Portraits008_web.jpg',
+      'images/Julia_Portraits018.jpg',
       'images/Julia_Portraits024_web.jpg',
       'images/20250721_020716232_iOS_web.jpg',
       'images/Julia_Portraits010_web.jpg',
-      'images/Tooker__Julia_Photo_web.jpg',
     ];
 
     let current = 0;
