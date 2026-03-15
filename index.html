@@ -125,16 +125,8 @@
       color: var(--gold-light);
     }
 
-    .hero-tagline {
-      margin-top: 28px;
-      font-size: 1rem;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-      font-style: italic;
-    }
-
     .hero-cta {
-      margin-top: 48px;
+      margin-top: 40px;
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
@@ -171,34 +163,8 @@
       color: var(--gold);
     }
 
-    .scroll-hint {
-      position: absolute;
-      bottom: 36px;
-      left: 60px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-muted);
-      font-size: 0.62rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-
     /* SECTIONS */
-    section { padding: 120px 60px; }
+    section { padding: 100px 60px; }
 
     .section-label {
       font-size: 0.7rem;
@@ -231,7 +197,7 @@
     .about-wrapper {
       max-width: 1300px;
       margin: 0 auto;
-      padding: 120px 60px 0;
+      padding: 100px 60px;
     }
 
     .about-top {
@@ -301,22 +267,6 @@
       margin-bottom: 20px;
     }
 
-    .about-pullquote {
-      margin: 36px 0;
-      padding: 24px 32px;
-      border-left: 3px solid var(--gold);
-      background: rgba(201,168,76,0.04);
-    }
-
-    .about-pullquote p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.45rem;
-      font-style: italic;
-      font-weight: 300;
-      color: var(--cream) !important;
-      line-height: 1.6;
-      margin: 0 !important;
-    }
 
 .about-tags {
       display: flex;
@@ -346,7 +296,7 @@
 
     .gallery-header {
       text-align: center;
-      margin-bottom: 64px;
+      margin-bottom: 48px;
     }
 
     .gallery-grid {
@@ -466,7 +416,7 @@
 
     .rep-header {
       text-align: center;
-      margin-bottom: 72px;
+      margin-bottom: 56px;
     }
 
     .rep-grid {
@@ -498,8 +448,6 @@
 
     .rep-card:hover::before { height: 100%; }
 
-    .rep-icon { font-size: 2.4rem; margin-bottom: 20px; }
-
     .rep-card h3 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
@@ -508,13 +456,7 @@
       margin-bottom: 12px;
     }
 
-    .rep-card p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }
-
-    .rep-list { margin-top: 20px; list-style: none; }
+    .rep-list { margin-top: 16px; list-style: none; }
 
     .rep-list li {
       padding: 8px 0;
@@ -773,8 +715,8 @@
       .hero-text-side { padding: 80px 28px 60px; }
       nav { padding: 20px 24px; }
       .nav-links { display: none; }
-      section { padding: 80px 24px; }
-      .about-wrapper { padding: 80px 24px 0; }
+      section { padding: 72px 24px; }
+      .about-wrapper { padding: 72px 24px; }
       .about-top { grid-template-columns: 1fr; }
       .about-photo-col { max-width: 360px; margin: 0 auto; }
 .rep-grid { grid-template-columns: 1fr; }
