@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Julia Tooker | Soprano</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
       --gold: #c9a84c;
@@ -707,15 +708,40 @@
     }
 
     .social-links a {
-      font-size: 0.7rem;
-      letter-spacing: 3px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.62rem;
+      letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--text-muted);
       text-decoration: none;
       transition: color 0.3s;
     }
 
+    .social-links a i {
+      font-size: 1.3rem;
+    }
+
     .social-links a:hover { color: var(--gold); }
+
+    @media (max-width: 500px) {
+      .perf-item-featured {
+        grid-template-columns: 70px 1fr;
+        gap: 16px;
+      }
+      .perf-ticket-link {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-top: 8px;
+      }
+      .perf-ticket-link .btn {
+        width: 100%;
+        display: block;
+        text-align: center;
+      }
+    }
 
     /* FOOTER */
     footer {
@@ -784,14 +810,9 @@
         Julia
         <span>Tooker</span>
       </h1>
-      <p class="hero-tagline">Eastman School of Music &nbsp;&middot;&nbsp; Rochester, NY</p>
       <div class="hero-cta">
         <a href="#performances" class="btn btn-gold">Performances</a>
         <a href="#contact" class="btn btn-outline">Book a Performance</a>
-      </div>
-      <div class="scroll-hint">
-        <div class="scroll-line"></div>
-        <span>Scroll</span>
       </div>
     </div>
     <div class="hero-photo-side">
@@ -818,15 +839,7 @@
           <div class="divider"></div>
 
           <p>
-            Julia Tooker is a crossover soprano and May 2026 Vocal Performance graduate of the Eastman School of Music, studying under Kathryn Cowdrick. Raised in Rochester, New York, her musical roots stretch from Puerto Rican holiday parrandas with her family to classical training at the Eastman Community Music School.
-          </p>
-
-          <div class="about-pullquote">
-            <p>"A rising talent with exceptional range, infectious warmth, and a spirit that lights up every stage she steps onto."</p>
-          </div>
-
-          <p>
-            Julia's versatility has earned her first-place recognition across musical theatre, classical, and opera aria categories in the Classical Singer, Schmidt Vocal Arts, American Protégé, and American Virtuoso International competitions. In 2025, she made her professional opera debut as an Apprentice Artist with Finger Lakes Opera. She has also performed as a featured soloist at Rochester Latino Theatre Company's Hispanic Heritage Events, a reflection of the cultural roots that continue to shape her artistry.
+            Julia Tooker is a crossover soprano and May 2026 Vocal Performance graduate of the Eastman School of Music, where she studied under Kathryn Cowdrick. Raised in Rochester, New York, she grew up immersed in diverse musical traditions, from Puerto Rican holiday parrandas with her family to classical voice training at the Eastman Community Music School. Her passion for exploring her Puerto Rican heritage continues to shape her artistry, most recently as a featured Bolero soloist at the Rochester Latino Theatre Company's Hispanic Heritage Events. A first-place winner in competitions spanning musical theatre, classical, and opera aria categories including Classical Singer and American Protégé, Julia made her professional opera debut in 2025 as an Apprentice Artist with Finger Lakes Opera.
           </p>
 
           <div class="about-tags">
@@ -890,9 +903,7 @@
       <div class="rep-grid">
 
         <div class="rep-card">
-          <div class="rep-icon">🎭</div>
           <h3>Opera</h3>
-          <p>Julia made her professional opera debut as an Apprentice Artist with Finger Lakes Opera in 2025, and has performed with Eastman Opera Theatre and The New Voice Festival.</p>
           <ul class="rep-list">
             <li><span>Rigoletto — Verdi</span><span class="role">The Page</span></li>
             <li><span>The Anonymous Lover — Vachon</span><span class="role">Jeannette</span></li>
@@ -904,9 +915,7 @@
         </div>
 
         <div class="rep-card">
-          <div class="rep-icon">✨</div>
           <h3>Musical Theatre</h3>
-          <p>With seven lead roles at OFC Creations Theatre Center in Rochester, Julia brings classical technique and modern energy to the musical theatre stage.</p>
           <ul class="rep-list">
             <li><span>The Phantom of the Opera</span><span class="role">Christine Daaé</span></li>
             <li><span>Jekyll &amp; Hyde</span><span class="role">Lucy</span></li>
@@ -919,9 +928,7 @@
         </div>
 
         <div class="rep-card">
-          <div class="rep-icon">🎶</div>
           <h3>Concert &amp; Cabaret</h3>
-          <p>An expressive concert soloist, Julia has performed at venues from Rochester community stages to New York City.</p>
           <ul class="rep-list">
             <li><span>Ben Cameron's Broadway Sessions — NYC</span><span class="role">Rising Star Soloist</span></li>
             <li><span>Hispanic Heritage Events — Rochester, Buffalo</span><span class="role">Featured Bolero Soloist</span></li>
@@ -931,9 +938,7 @@
         </div>
 
         <div class="rep-card">
-          <div class="rep-icon">🏆</div>
           <h3>Awards &amp; Competitions</h3>
-          <p>Julia's versatility has earned her top honors in competitions spanning opera, classical, and musical theatre categories.</p>
           <ul class="rep-list">
             <li><span>Classical Singer — Musical Theatre</span><span class="role">1st Place National</span></li>
             <li><span>Classical Singer — Classical</span><span class="role">3rd Place National</span></li>
@@ -986,7 +991,7 @@
         </div>
         <div class="perf-info">
           <h4>Rigoletto &amp; The Anonymous Lover — Finger Lakes Opera</h4>
-          <div class="venue">Apprentice Artist Program &nbsp;&middot;&nbsp; Finger Lakes Opera</div>
+          <div class="venue">Apprentice Artist Program &nbsp;&middot;&nbsp; Rochester, NY</div>
           <div class="perf-badges">
             <span class="role-badge">The Page / Jeannette</span>
             <span class="perf-type-badge opera">Opera</span>
@@ -1016,7 +1021,7 @@
         </div>
         <div class="perf-info">
           <h4>Dido &amp; Aeneas / &amp; Aeterna — The New Voice Festival</h4>
-          <div class="venue">The New Voice Festival &nbsp;&middot;&nbsp; Opera/MT Crossover Program</div>
+          <div class="venue">Opera/MT Crossover Program &nbsp;&middot;&nbsp; Boise, ID</div>
           <div class="perf-badges">
             <span class="role-badge">Warrior / Aeterna</span>
             <span class="perf-type-badge opera">Opera</span>
@@ -1085,10 +1090,10 @@
       <br>
       <a href="#performances" class="btn btn-gold">View Full Calendar</a>
       <div class="social-links">
-        <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.youtube.com/@juliatooker714" target="_blank" rel="noopener">YouTube</a>
-        <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i><span>Instagram</span></a>
+        <a href="https://www.youtube.com/@juliatooker714" target="_blank" rel="noopener"><i class="fab fa-youtube"></i><span>YouTube</span></a>
+        <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
+        <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i><span>TikTok</span></a>
       </div>
     </div>
   </section>
