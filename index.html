@@ -75,7 +75,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px 80px;
+      padding: 100px 60px 80px;
       background: radial-gradient(ellipse at 80% 50%, #2a1f0e 0%, #0e0e0e 70%);
       position: relative;
       z-index: 1;
@@ -186,7 +186,7 @@
       width: 60px;
       height: 1px;
       background: var(--gold);
-      margin: 28px 0;
+      margin: 20px 0;
     }
 
     /* ABOUT */
@@ -262,17 +262,15 @@
 
     .about-text-col p {
       font-size: 1.05rem;
-      line-height: 1.95;
+      line-height: 1.9;
       color: #bbb;
-      margin-bottom: 20px;
     }
 
-
-.about-tags {
+    .about-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 32px;
+      margin-top: 24px;
     }
 
     .tag {
@@ -299,40 +297,65 @@
       margin-bottom: 48px;
     }
 
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto;
-      gap: 8px;
+    @keyframes galleryScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    /* First photo spans 2 rows for visual interest */
-    .gallery-item {
+    .gallery-carousel-wrapper {
       overflow: hidden;
       position: relative;
+    }
+
+    /* Fade edges */
+    .gallery-carousel-wrapper::before,
+    .gallery-carousel-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 100px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .gallery-carousel-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, var(--dark), transparent);
+    }
+
+    .gallery-carousel-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, var(--dark), transparent);
+    }
+
+    .gallery-track {
+      display: flex;
+      gap: 8px;
+      width: max-content;
+      animation: galleryScroll 28s linear infinite;
+    }
+
+    .gallery-track:hover {
+      animation-play-state: paused;
+    }
+
+    .gallery-slide {
+      flex-shrink: 0;
+      height: 520px;
+      overflow: hidden;
       cursor: pointer;
+      position: relative;
       background: #111;
     }
 
-    .gallery-item:first-child {
-      grid-row: span 2;
-    }
-
-    .gallery-item img {
-      width: 100%;
+    .gallery-slide img {
       height: 100%;
-      object-fit: cover;
-      object-position: center top;
+      width: auto;
       display: block;
       transition: transform 0.5s ease, filter 0.5s ease;
-      min-height: 280px;
     }
 
-    .gallery-item:first-child img {
-      min-height: 580px;
-    }
-
-    .gallery-item::after {
+    .gallery-slide::after {
       content: '';
       position: absolute;
       inset: 0;
@@ -340,12 +363,12 @@
       transition: background 0.4s ease;
     }
 
-    .gallery-item:hover::after {
+    .gallery-slide:hover::after {
       background: rgba(201,168,76,0.08);
     }
 
-    .gallery-item:hover img {
-      transform: scale(1.05);
+    .gallery-slide:hover img {
+      transform: scale(1.04);
       filter: brightness(1.05);
     }
 
@@ -428,7 +451,7 @@
 
     .rep-card {
       background: var(--dark);
-      padding: 48px 40px;
+      padding: 36px 40px;
       position: relative;
       overflow: hidden;
       transition: background 0.3s;
@@ -488,7 +511,7 @@
       letter-spacing: 4px;
       text-transform: uppercase;
       color: var(--gold);
-      margin: 48px 0 20px;
+      margin: 36px 0 16px;
       display: flex;
       align-items: center;
       gap: 16px;
@@ -621,7 +644,7 @@
       color: var(--text-muted);
       font-size: 1rem;
       line-height: 1.8;
-      margin: 24px 0 40px;
+      margin: 20px 0 32px;
     }
 
     .contact-email {
@@ -633,7 +656,7 @@
       text-decoration: none;
       border-bottom: 1px solid rgba(201,168,76,0.3);
       padding-bottom: 4px;
-      margin-bottom: 48px;
+      margin-bottom: 36px;
       transition: color 0.3s, border-color 0.3s;
     }
 
@@ -719,14 +742,17 @@
       .about-wrapper { padding: 72px 24px; }
       .about-top { grid-template-columns: 1fr; }
       .about-photo-col { max-width: 360px; margin: 0 auto; }
-.rep-grid { grid-template-columns: 1fr; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-item:first-child { grid-row: span 1; }
+      .rep-grid { grid-template-columns: 1fr; }
+      .gallery-slide { height: 340px; }
+      .gallery-carousel-wrapper::before,
+      .gallery-carousel-wrapper::after { width: 48px; }
       footer { flex-direction: column; gap: 12px; text-align: center; }
     }
 
     @media (max-width: 500px) {
-      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-slide { height: 240px; }
+      .gallery-carousel-wrapper::before,
+      .gallery-carousel-wrapper::after { display: none; }
     }
   </style>
 </head>
@@ -780,7 +806,7 @@
           <div class="divider"></div>
 
           <p>
-            Julia Tooker is a crossover soprano and May 2026 Vocal Performance graduate of the Eastman School of Music, where she studied under Kathryn Cowdrick. Raised in Rochester, New York, she grew up immersed in diverse musical traditions, from Puerto Rican holiday parrandas with her family to classical voice training at the Eastman Community Music School. Her passion for exploring her Puerto Rican heritage continues to shape her artistry, most recently as a featured Bolero soloist at the Rochester Latino Theatre Company's Hispanic Heritage Events. A first-place winner in competitions spanning musical theatre, classical, and opera aria categories including Classical Singer and American Protégé, Julia made her professional opera debut in 2025 as an Apprentice Artist with Finger Lakes Opera.
+            Julia Tooker is a crossover soprano and May 2026 Vocal Performance graduate of the Eastman School of Music, where she studied under Kathryn Cowdrick. Raised in Rochester, New York, she began her classical voice training at the Eastman Community Music School at the age of thirteen. She has a passion for exploring her Puerto Rican heritage through music, most recently as a featured Bolero soloist at the Rochester Latino Theatre Company's Hispanic Heritage Events. Julia is a first-place winner in competitions spanning musical theatre, classical, and opera aria categories, and made her professional opera debut in 2025 as an Apprentice Artist with Finger Lakes Opera.
           </p>
 
           <div class="about-tags">
@@ -805,21 +831,34 @@
         <h2 class="section-title">Gallery</h2>
         <div class="divider" style="margin: 28px auto;"></div>
       </div>
-      <div class="gallery-grid">
-        <div class="gallery-item" onclick="openLightbox(0)">
-          <img src="images/FT4A2099copy_web.jpg" alt="Julia Tooker">
-        </div>
-        <div class="gallery-item" onclick="openLightbox(1)">
-          <img src="images/Julia_Portraits018.jpg" alt="Julia Tooker">
-        </div>
-        <div class="gallery-item" onclick="openLightbox(2)">
-          <img src="images/Julia_Portraits024_web.jpg" alt="Julia Tooker">
-        </div>
-        <div class="gallery-item" onclick="openLightbox(3)">
-          <img src="images/20250721_020716232_iOS_web.jpg" alt="Julia Tooker">
-        </div>
-        <div class="gallery-item" onclick="openLightbox(4)">
-          <img src="images/Julia_Portraits010_web.jpg" alt="Julia Tooker">
+      <div class="gallery-carousel-wrapper">
+        <div class="gallery-track" id="galleryTrack">
+          <!-- original set -->
+          <div class="gallery-slide" onclick="openLightbox(0)">
+            <img src="images/FT4A2099copy_web.jpg" alt="Julia Tooker">
+          </div>
+          <div class="gallery-slide" onclick="openLightbox(1)">
+            <img src="images/Julia_Portraits024_web.jpg" alt="Julia Tooker">
+          </div>
+          <div class="gallery-slide" onclick="openLightbox(2)">
+            <img src="images/20250721_020716232_iOS_web.jpg" alt="Julia Tooker">
+          </div>
+          <div class="gallery-slide" onclick="openLightbox(3)">
+            <img src="images/Julia_Portraits010_web.jpg" alt="Julia Tooker">
+          </div>
+          <!-- duplicate set for seamless loop -->
+          <div class="gallery-slide" onclick="openLightbox(0)" aria-hidden="true">
+            <img src="images/FT4A2099copy_web.jpg" alt="">
+          </div>
+          <div class="gallery-slide" onclick="openLightbox(1)" aria-hidden="true">
+            <img src="images/Julia_Portraits024_web.jpg" alt="">
+          </div>
+          <div class="gallery-slide" onclick="openLightbox(2)" aria-hidden="true">
+            <img src="images/20250721_020716232_iOS_web.jpg" alt="">
+          </div>
+          <div class="gallery-slide" onclick="openLightbox(3)" aria-hidden="true">
+            <img src="images/Julia_Portraits010_web.jpg" alt="">
+          </div>
         </div>
       </div>
     </div>
@@ -847,9 +886,9 @@
           <h3>Opera</h3>
           <ul class="rep-list">
             <li><span>Rigoletto — Verdi</span><span class="role">The Page</span></li>
-            <li><span>The Anonymous Lover — Vachon</span><span class="role">Jeannette</span></li>
+            <li><span>The Anonymous Lover — Bologne</span><span class="role">Jeannette</span></li>
             <li><span>Ainadamar — Golijov</span><span class="role">Niña</span></li>
-            <li><span>Silent Light — Muhly</span><span class="role">Autghe</span></li>
+            <li><span>Silent Light — Prestini</span><span class="role">Autghe</span></li>
             <li><span>&amp; Aeterna — Landau</span><span class="role">Aeterna</span></li>
             <li><span>Dido &amp; Aeneas — Purcell</span><span class="role">Warrior</span></li>
           </ul>
@@ -1048,7 +1087,6 @@
   <script>
     const photos = [
       'images/FT4A2099copy_web.jpg',
-      'images/Julia_Portraits018.jpg',
       'images/Julia_Portraits024_web.jpg',
       'images/20250721_020716232_iOS_web.jpg',
       'images/Julia_Portraits010_web.jpg',
