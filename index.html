@@ -39,11 +39,15 @@
     }
 
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      letter-spacing: 3px;
-      color: var(--gold);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo img {
+      height: 72px;
+      width: auto;
+      filter: brightness(0) invert(79%) sepia(52%) saturate(600%) hue-rotate(2deg) brightness(1.0);
     }
 
     .nav-links {
@@ -651,7 +655,10 @@
     }
 
     .contact-email {
-      display: inline-block;
+      display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
       font-style: italic;
@@ -774,7 +781,7 @@
   <!-- NAV -->
   <div class="nav-overlay" id="navOverlay"></div>
   <nav>
-    <a href="#" class="nav-logo">J T</a>
+    <a href="#" class="nav-logo"><img src="images/AdobeJTLogo.png" alt="Julia Tooker"></a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
       <li><a href="#gallery">Gallery</a></li>
