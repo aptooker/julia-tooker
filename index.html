@@ -117,7 +117,7 @@
 
     .hero-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.5rem, 6vw, 7rem);
+      font-size: clamp(3rem, 8vw, 7rem);
       font-weight: 300;
       line-height: 1.0;
       letter-spacing: 4px;
@@ -169,7 +169,7 @@
     }
 
     /* SECTIONS */
-    section { padding: 100px 60px; }
+    section { padding: clamp(64px, 8vw, 100px) clamp(24px, 5vw, 60px); }
 
     .section-label {
       font-size: 0.7rem;
@@ -181,7 +181,7 @@
 
     .section-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-size: clamp(2rem, 5vw, 3.6rem);
       font-weight: 300;
       line-height: 1.2;
       color: var(--cream);
@@ -202,13 +202,13 @@
     .about-wrapper {
       max-width: 1300px;
       margin: 0 auto;
-      padding: 100px 60px;
+      padding: clamp(64px, 8vw, 100px) clamp(24px, 5vw, 60px);
     }
 
     .about-top {
       display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 80px;
+      grid-template-columns: minmax(280px, 420px) 1fr;
+      gap: clamp(32px, 5vw, 80px);
       align-items: start;
     }
 
@@ -759,8 +759,7 @@
       .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
       .nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 98; }
       .nav-overlay.open { display: block; }
-      section { padding: 72px 24px; }
-      .about-wrapper { padding: 72px 24px; }
+      .hero-subtitle { letter-spacing: 3px; font-size: 0.72rem; }
       .about-top { grid-template-columns: 1fr; }
       .about-photo-col { max-width: 360px; margin: 0 auto; }
       .rep-grid { grid-template-columns: 1fr; }
@@ -771,9 +770,15 @@
     }
 
     @media (max-width: 500px) {
+      .hero-text-side { padding: 72px 20px 48px; }
+      .hero-subtitle { letter-spacing: 2px; font-size: 0.68rem; }
+      .hero-cta { gap: 10px; }
+      .btn { padding: 12px 24px; font-size: 0.7rem; letter-spacing: 2px; }
       .gallery-slide { height: 240px; }
       .gallery-carousel-wrapper::before,
       .gallery-carousel-wrapper::after { display: none; }
+      .rep-card { padding: 24px 20px; }
+      footer { padding: 24px 20px; }
     }
   </style>
 </head>
