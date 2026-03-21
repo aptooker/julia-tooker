@@ -583,6 +583,8 @@
       margin-top: 2px;
     }
 
+    .perf-date .day-sm { font-size: 1.5rem; }
+
     .perf-info h4 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.35rem;
@@ -862,7 +864,7 @@
             <img src="images/Julia_Portraits010_web.jpg" alt="Julia Tooker">
           </div>
           <div class="gallery-slide" onclick="openLightbox(4)">
-            <img src="images/Julia%20Tooker%20Headshot.jpg" alt="Julia Tooker">
+            <img src="images/JuliaTookerHeadshot.jpg" alt="Julia Tooker">
           </div>
           <div class="gallery-slide" onclick="openLightbox(5)">
             <img src="images/_8100718.jpg" alt="Julia Tooker">
@@ -884,7 +886,7 @@
             <img src="images/Julia_Portraits010_web.jpg" alt="">
           </div>
           <div class="gallery-slide" onclick="openLightbox(4)" aria-hidden="true">
-            <img src="images/Julia%20Tooker%20Headshot.jpg" alt="">
+            <img src="images/JuliaTookerHeadshot.jpg" alt="">
           </div>
           <div class="gallery-slide" onclick="openLightbox(5)" aria-hidden="true">
             <img src="images/_8100718.jpg" alt="">
@@ -1000,7 +1002,7 @@
       <div class="perf-item">
         <div class="perf-date">
           <span class="month">Summer</span>
-          <span class="day" style="font-size:1.5rem;">2025</span>
+          <span class="day day-sm">2025</span>
         </div>
         <div class="perf-info">
           <h4>Rigoletto &amp; The Anonymous Lover — Finger Lakes Opera</h4>
@@ -1015,7 +1017,7 @@
       <div class="perf-item">
         <div class="perf-date">
           <span class="month">Spring</span>
-          <span class="day" style="font-size:1.5rem;">2025</span>
+          <span class="day day-sm">2025</span>
         </div>
         <div class="perf-info">
           <h4>Ainadamar — Eastman Opera Theatre</h4>
@@ -1030,7 +1032,7 @@
       <div class="perf-item">
         <div class="perf-date">
           <span class="month">Summer</span>
-          <span class="day" style="font-size:1.5rem;">2024</span>
+          <span class="day day-sm">2024</span>
         </div>
         <div class="perf-info">
           <h4>Dido &amp; Aeneas / &amp; Aeterna — The New Voice Festival</h4>
@@ -1045,7 +1047,7 @@
       <div class="perf-item">
         <div class="perf-date">
           <span class="month">Fall</span>
-          <span class="day" style="font-size:1.5rem;">2024</span>
+          <span class="day day-sm">2024</span>
         </div>
         <div class="perf-info">
           <h4>Silent Light — Eastman Opera Theatre</h4>
@@ -1060,7 +1062,7 @@
       <div class="perf-item">
         <div class="perf-date">
           <span class="month">May</span>
-          <span class="day" style="font-size:1.5rem;">2023</span>
+          <span class="day day-sm">2023</span>
         </div>
         <div class="perf-info">
           <h4>Ben Cameron's Broadway Sessions</h4>
@@ -1075,7 +1077,7 @@
       <div class="perf-item">
         <div class="perf-date">
           <span class="month">Fall</span>
-          <span class="day" style="font-size:1.5rem;">2021</span>
+          <span class="day day-sm">2021</span>
         </div>
         <div class="perf-info">
           <h4>The Phantom of the Opera — OFC Creations Theatre Center</h4>
@@ -1100,7 +1102,6 @@
         Julia is available for opera productions, musical theatre, orchestral concerts, cabarets, galas, Hispanic heritage events, and private engagements. She welcomes inquiries from directors, conductors, producers, and event organizers.
       </p>
       <a href="mailto:contact@julia-tooker.com" class="contact-email">contact@julia-tooker.com</a>
-      <br>
       <a href="#performances" class="btn btn-gold">View Full Calendar</a>
       <div class="social-links">
         <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i><span>Instagram</span></a>
@@ -1123,7 +1124,7 @@
       'images/Julia_Portraits024_web.jpg',
       'images/20250721_020716232_iOS_web.jpg',
       'images/Julia_Portraits010_web.jpg',
-      'images/Julia%20Tooker%20Headshot.jpg',
+      'images/JuliaTookerHeadshot.jpg',
       'images/_8100718.jpg',
       'images/20250703_193510000_iOS.jpg',
     ];
@@ -1157,9 +1158,7 @@
       if (e.key === 'ArrowLeft') shiftLightbox(-1);
       if (e.key === 'ArrowRight') shiftLightbox(1);
     });
-  </script>
 
-  <script>
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
     const navOverlay = document.getElementById('navOverlay');
