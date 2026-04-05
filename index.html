@@ -340,10 +340,6 @@
       animation: galleryScroll 24s linear infinite;
     }
 
-    .gallery-track:hover {
-      animation-play-state: paused;
-    }
-
     .gallery-slide {
       flex-shrink: 0;
       height: 520px;
@@ -368,13 +364,11 @@
       transition: background 0.4s ease;
     }
 
-    .gallery-slide:hover::after {
-      background: rgba(201,168,76,0.08);
-    }
-
-    .gallery-slide:hover img {
-      transform: scale(1.04);
-      filter: brightness(1.05);
+    /* Only pause/hover on pointer devices — prevents touch locking on mobile */
+    @media (hover: hover) and (pointer: fine) {
+      .gallery-track:hover { animation-play-state: paused; }
+      .gallery-slide:hover::after { background: rgba(201,168,76,0.08); }
+      .gallery-slide:hover img { transform: scale(1.04); filter: brightness(1.05); }
     }
 
     /* LIGHTBOX */
@@ -1190,6 +1184,22 @@
 
     navOverlay.addEventListener('click', closeMenu);
     navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    // Restart gallery animation after images load to fix width calculation on mobile
+    const track = document.getElementById('galleryTrack');
+    if (track) {
+      const imgs = track.querySelectorAll('img');
+      let loaded = 0;
+      const restart = () => {
+        loaded++;
+        if (loaded === imgs.length) {
+          track.style.animation = 'none';
+          track.offsetHeight; // force reflow
+          track.style.animation = '';
+        }
+      };
+      imgs.forEach(img => img.complete ? restart() : img.addEventListener('load', restart));
+    }
   </script>
 
 </body>
