@@ -530,11 +530,11 @@
       display: grid;
       grid-template-columns: 90px 1fr auto;
       align-items: center;
-      gap: 32px;
-      padding: 28px 32px;
+      gap: 24px;
+      padding: 22px 24px;
       background: rgba(201,168,76,0.06);
       border: 1px solid rgba(201,168,76,0.25);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       transition: background 0.3s;
     }
 
@@ -570,7 +570,7 @@
     }
 
     .perf-date .month {
-      font-size: 0.74rem;
+      font-size: 0.82rem;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--gold);
@@ -579,8 +579,8 @@
 
     .perf-date .day {
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: 1.1rem;
-      font-weight: 300;
+      font-size: 1.55rem;
+      font-weight: 400;
       color: var(--cream);
       line-height: 1.1;
       display: block;
@@ -589,26 +589,30 @@
     }
 
     .perf-date .year {
-      font-size: 0.45rem;
+      font-size: 0.58rem;
       letter-spacing: 1px;
       color: var(--text-muted);
       display: block;
       margin-top: 2px;
     }
 
-    .perf-date .day-sm { font-size: 1rem; }
+    .perf-date .day-sm { font-size: 1.4rem; }
 
     .perf-item-featured .perf-date .month {
       font-size: 0.82rem;
     }
 
     .perf-item-featured .perf-date .day {
-      font-size: 1.6rem;
+      font-size: 1.55rem;
       font-weight: 400;
     }
 
     .perf-item-featured .perf-date .year {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
+    }
+
+    .perf-item-featured .perf-date .day-sm {
+      font-size: 1.4rem;
     }
 
     .perf-info h4 {
@@ -634,12 +638,26 @@
     }
 
     .perf-info .venue {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
+      font-size: 0.8rem;
+      color: #d7d0c3;
+      margin-bottom: 6px;
+      line-height: 1.5;
     }
 
-    .perf-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .perf-info .venue a,
+    .perf-info .venue a:link,
+    .perf-info .venue a:visited {
+      color: #d7d0c3;
+      text-decoration: none;
+    }
+
+    .perf-info .venue a:hover,
+    .perf-info .venue a:focus {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    .perf-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
 
     .role-badge {
       display: inline-block;
@@ -871,7 +889,7 @@
           <div class="divider"></div>
 
           <p>
-            Julia is a crossover soprano and 2026 Vocal Performance graduate of the Eastman School of Music. Raised in Rochester, New York, she began her classical voice training at the Eastman Community Music School at the age of thirteen. She has a passion for exploring her Puerto Rican heritage through music, most recently as a featured Bolero soloist at the Rochester Latino Theatre Company's Hispanic Heritage Events. Equally at home on the operatic stage and in musical theatre, she has performed leading roles ranging from Christine in <em>The Phantom of the Opera</em> and Cosette in <em>Les Misérables</em> to Jeanette in <em>The Anonymous Lover</em>. Julia is a first-place winner in competitions spanning musical theatre, classical, and opera aria categories, and made her professional opera debut in 2025 as an Apprentice Artist with Finger Lakes Opera.
+            Julia is a crossover soprano and 2026 Vocal Performance graduate of the Eastman School of Music. Raised in Rochester, New York, she began her classical voice training at the Eastman Community Music School at the age of thirteen. She has a passion for exploring her Hispanic heritage through music, from singing Spanish Zarzuela opera arias to Puerto Rican boleros. Equally at home on the operatic stage and in musical theatre, some of her favorite performance highlights include Christine in <em>The Phantom of the Opera</em>, Cosette in <em>Les Misérables</em>, and Jeanette in <em>The Anonymous Lover</em>. Julia is a first-place winner in competitions spanning musical theatre, classical, and opera aria categories, and made her professional opera debut in 2025 as an Apprentice Artist with Finger Lakes Opera.
           </p>
 
         </div>
@@ -1025,14 +1043,35 @@
         </div>
         <div class="perf-info">
           <h4><a href="https://www.operaguildofrochester.org/aria-slams" target="_blank" rel="noreferrer">Opera Guild of Rochester — Aria Slams</a></h4>
-          <div class="venue">Asbury First United Methodist Church &nbsp;&middot;&nbsp; 1050 East Ave., Rochester, NY 14607</div>
+          <div class="venue">Asbury First United Methodist Church</div>
+          <div class="venue">1050 East Ave., Rochester, NY 14607</div>
           <div class="venue">7:00 PM &nbsp;&middot;&nbsp; Free admission</div>
           <div class="perf-badges">
             <span class="role-badge">Featured Soloist</span>
             <span class="perf-type-badge opera">Opera</span>
           </div>
         </div>
-        <img class="perf-feature-image" src="images/OperaAriaSlam9-27.jpg" alt="Opera Guild of Rochester Aria Slams event poster" onclick="openLightbox(photos.length - 1)" />
+        <img class="perf-feature-image" src="images/OperaAriaSlam9-27.jpg" alt="Opera Guild of Rochester Aria Slams event poster" onclick="openLightbox(photos.length - 2)" />
+      </div>
+
+      <div class="perf-item-featured">
+        <div class="perf-date">
+          <span class="month">Sept</span>
+          <span class="day day-sm">25-27</span>
+          <span class="year">2026</span>
+        </div>
+        <div class="perf-info">
+          <h4><a href="https://www.youtube.com/@paulh.gaston-composer6046/streams" target="_blank" rel="noreferrer">Tree of Life, Tree of Colors — Concert Series</a></h4>
+          <div class="venue">Finger Lakes Area &nbsp;&middot;&nbsp; Free admission &nbsp;&middot;&nbsp;
+                   <a href="https://www.youtube.com/@paulh.gaston-composer6046/streams" target="_blank" rel="noreferrer">Watch livestream on YouTube</a></div>
+          <div class="venue"><a href="https://www.youtube.com/watch?v=tHlqRlHUeqw" target="_blank" rel="noreferrer">Sept 25 — First Baptist Church, Penn Yan, NY &nbsp;&middot;&nbsp; 7:00 PM</a></div>
+          <div class="venue"><a href="https://www.youtube.com/watch?v=plW5bKdPXs8" target="_blank" rel="noreferrer">Sept 26 — Nunda United Methodist, Nunda, NY &nbsp;&middot;&nbsp; 4:30 PM</a></div>
+          <div class="venue"><a href="https://www.youtube.com/watch?v=fJN7VIVcsJI" target="_blank" rel="noreferrer">Sept 27 — Warsaw United Methodist, Warsaw, NY &nbsp;&middot;&nbsp; 4:30 PM</a></div>
+          <div class="perf-badges">
+            <span class="role-badge">Featured Soloist</span>
+          </div>
+        </div>
+        <img class="perf-feature-image" src="images/Sept27Concert.jpg" alt="Tree of Life, Tree of Colors concert poster" onclick="openLightbox(photos.length - 1)" />
       </div>
 
       <!-- PAST -->
@@ -1215,6 +1254,7 @@
       'images/JuliaTookerHeadshot.jpg',
       'images/20250721_020716232_iOS_web.jpg',
       'images/OperaAriaSlam9-27.jpg',
+      'images/Sept27Concert.jpg',
     ];
 
     let current = 0;
