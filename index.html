@@ -696,6 +696,12 @@
     @media (max-width: 900px) {
       .perf-item-featured,
       .perf-item { grid-template-columns: 70px 1fr; }
+      .perf-item-featured .perf-feature-image {
+        grid-column: 1 / -1;
+        width: 100%;
+        max-width: 280px;
+        justify-self: center;
+      }
       .perf-ticket-link { grid-column: 2; }
     }
 
