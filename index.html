@@ -769,7 +769,7 @@
     .signup-status { flex-basis: 100%; min-height: 1.4em; margin: 0; color: var(--gold); }
 
     .hero-signup { margin-top: 28px; }
-    .hero-signup .signup-form { margin: 0; max-width: 440px; }
+    .hero-signup .signup-form { margin: 0; }
 
     .social-links {
       display: flex;
@@ -876,6 +876,9 @@
       .gallery-carousel-wrapper::after { display: none; }
       .rep-card { padding: 24px 20px; }
       footer { padding: 24px 20px; }
+      /* Stack the signup form so the input gets full width for its
+         placeholder text, instead of squeezing next to the button. */
+      .signup-form { flex-direction: column; }
     }
   </style>
 </head>
