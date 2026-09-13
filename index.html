@@ -748,6 +748,7 @@
 
     .signup-form {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       margin: 32px auto 36px;
       max-width: 520px;
@@ -765,7 +766,10 @@
 
     .signup-form input::placeholder { color: var(--text-muted); }
     .signup-form input:focus { outline: 1px solid var(--gold); }
-    .signup-status { min-height: 1.4em; margin: -20px auto 24px !important; color: var(--gold) !important; }
+    .signup-status { flex-basis: 100%; min-height: 1.4em; margin: 0; color: var(--gold); }
+
+    .hero-signup { margin-top: 28px; }
+    .hero-signup .signup-form { margin: 0; max-width: 440px; }
 
     .social-links {
       display: flex;
@@ -904,6 +908,14 @@
       <div class="hero-cta">
         <a href="#performances" class="btn btn-gold">Performances</a>
         <a href="#contact" class="btn btn-outline">Book a Performance</a>
+      </div>
+      <div class="hero-signup">
+        <form class="signup-form">
+          <label class="sr-only" for="heroSignupEmail">Email address</label>
+          <input id="heroSignupEmail" name="email" type="email" autocomplete="email" placeholder="Your email for event announcements" required>
+          <button class="btn btn-gold" type="submit">Join List</button>
+          <p class="signup-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </div>
     <div class="hero-photo-side">
@@ -1263,12 +1275,12 @@
         Julia is available for opera productions, musical theatre, orchestral concerts, cabarets, galas, Hispanic heritage events, church, and private engagements. She welcomes inquiries from directors, conductors, producers, and event organizers.
       </p>
       <p>Resume available upon request.</p>
-      <form class="signup-form" id="signupForm">
-        <label class="sr-only" for="signupEmail">Email address</label>
-        <input id="signupEmail" name="email" type="email" autocomplete="email" placeholder="Your email for event announcements" required>
+      <form class="signup-form">
+        <label class="sr-only" for="contactSignupEmail">Email address</label>
+        <input id="contactSignupEmail" name="email" type="email" autocomplete="email" placeholder="Your email for event announcements" required>
         <button class="btn btn-gold" type="submit">Join List</button>
+        <p class="signup-status" role="status" aria-live="polite"></p>
       </form>
-      <p class="signup-status" id="signupStatus" role="status" aria-live="polite"></p>
       <a href="mailto:contact@julia-tooker.com" class="contact-email">contact@julia-tooker.com</a>
       <a href="#performances" class="btn btn-gold">View Full Calendar</a>
       <div class="social-links">
@@ -1347,30 +1359,31 @@
     navOverlay.addEventListener('click', closeMenu);
     navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
-    const signupForm = document.getElementById('signupForm');
-    const signupStatus = document.getElementById('signupStatus');
     const signupApiUrl = 'https://julia-tooker-signup-api-2d1a71.azurewebsites.net/api/signup';
-    signupForm.addEventListener('submit', async event => {
-      event.preventDefault();
-      const submitButton = signupForm.querySelector('button');
-      submitButton.disabled = true;
-      signupStatus.textContent = 'Joining the list...';
+    document.querySelectorAll('.signup-form').forEach(signupForm => {
+      const signupStatus = signupForm.querySelector('.signup-status');
+      signupForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        const submitButton = signupForm.querySelector('button');
+        submitButton.disabled = true;
+        signupStatus.textContent = 'Joining the list...';
 
-      try {
-        const response = await fetch(signupApiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: signupForm.email.value, consent: true }),
-        });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.message || 'Signup failed.');
-        signupStatus.textContent = result.message;
-        signupForm.reset();
-      } catch (error) {
-        signupStatus.textContent = error.message || 'Signup failed. Please try again.';
-      } finally {
-        submitButton.disabled = false;
-      }
+        try {
+          const response = await fetch(signupApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: signupForm.email.value, consent: true }),
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.message || 'Signup failed.');
+          signupStatus.textContent = result.message;
+          signupForm.reset();
+        } catch (error) {
+          signupStatus.textContent = error.message || 'Signup failed. Please try again.';
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
     });
 
     // Restart gallery animation after images load to fix width calculation on mobile

@@ -60,7 +60,7 @@ Unsubscribe: ${unsubscribeUrl}`;
             <!-- Photo -->
             <tr>
               <td>
-                <img src="${siteUrl}/images/email-hero-banner.jpg?v=${BANNER_VERSION}" alt="Julia Perez Tooker" width="600" height="180" style="display:block; width:100%; max-width:600px; height:180px;">
+                <img src="${siteUrl}/images/email-hero-banner.jpg?v=${BANNER_VERSION}" alt="Julia Perez Tooker" width="600" height="180" style="display:block; width:100%; max-width:600px; height:auto;">
               </td>
             </tr>
 
