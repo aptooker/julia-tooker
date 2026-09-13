@@ -1,6 +1,12 @@
 // Email templates sent by the signup function.
 // Keep markup email-client-safe: table layout, inline styles, web-safe font fallbacks.
 
+// Bump this whenever images/email-hero-banner.jpg changes. Gmail (and other
+// clients) proxy and cache remote images by URL, so reusing the same URL
+// after swapping the file can keep showing the old cached copy - a version
+// query string forces those caches to treat it as a new resource.
+const BANNER_VERSION = '2';
+
 function buildWelcomeEmail({ siteUrl, unsubscribeUrl }) {
   const subject = "You're on Julia Perez Tooker's list!";
 
@@ -54,7 +60,7 @@ Unsubscribe: ${unsubscribeUrl}`;
             <!-- Photo -->
             <tr>
               <td>
-                <img src="${siteUrl}/images/email-hero-banner.jpg" alt="Julia Perez Tooker" width="600" height="180" style="display:block; width:100%; max-width:600px; height:180px;">
+                <img src="${siteUrl}/images/email-hero-banner.jpg?v=${BANNER_VERSION}" alt="Julia Perez Tooker" width="600" height="180" style="display:block; width:100%; max-width:600px; height:180px;">
               </td>
             </tr>
 
