@@ -70,25 +70,33 @@
     .nav-links a:hover { color: var(--gold); }
     .hamburger { display: none; }
 
-    /* HERO — split layout */
+    /* HERO — split layout. Grid rows 1 and 4 are flexible spacers, so
+       the intro/actions pair (rows 2-3) sits centered as a group in
+       the left column, while the photo spans the full height on the
+       right - same look as before, but as three independent items so
+       each can be reordered/resized on its own per breakpoint. */
     .hero {
       height: 100vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto auto 1fr;
       overflow: hidden;
+      background: radial-gradient(ellipse at 80% 50%, #2a1f0e 0%, #0e0e0e 70%);
     }
 
-    .hero-text-side {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 100px 60px 80px;
-      background: radial-gradient(ellipse at 80% 50%, #2a1f0e 0%, #0e0e0e 70%);
+    .hero-intro, .hero-actions {
+      grid-column: 1;
+      padding: 0 60px;
       position: relative;
       z-index: 1;
     }
 
+    .hero-intro { grid-row: 2; }
+    .hero-actions { grid-row: 3; }
+
     .hero-photo-side {
+      grid-column: 2;
+      grid-row: 1 / -1;
       position: relative;
       overflow: hidden;
     }
@@ -306,7 +314,7 @@
 
     .gallery-header {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 28px;
     }
 
     @keyframes galleryScroll {
@@ -445,7 +453,7 @@
 
     .rep-header {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: 32px;
     }
 
     .rep-grid {
@@ -839,11 +847,25 @@
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; height: auto; }
-      /* Lead with the photo on mobile, sized taller so less of her is
-         cropped, then the name/buttons follow below it. */
-      .hero-photo-side { height: 85vw; order: -1; margin-top: 88px; }
-      .hero-text-side { padding: 32px 28px 60px; }
+      /* Stack in DOM order - name/subtitle, then photo, then the
+         buttons - instead of the desktop grid placement, and keep
+         everything compact so it comfortably fits one screen. */
+      .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+      }
+      .hero-intro, .hero-actions, .hero-photo-side {
+        grid-column: 1;
+        grid-row: auto;
+      }
+      .hero-intro { padding: 70px 24px 0; }
+      .hero-subtitle { margin-bottom: 8px; }
+      .hero-name { font-size: 2rem; }
+      .hero-photo-side { height: 36vh; margin: 12px 0; }
+      .hero-actions { padding: 0 24px 20px; }
+      .hero-cta { margin-top: 0; gap: 10px; }
+      .hero-signup { margin-top: 12px; }
       nav { padding: 16px 20px; background: rgba(14,14,14,0.97); }
       .nav-logo img { height: 46px; }
       #about, #gallery, #repertoire, #performances, #contact { scroll-margin-top: 90px; }
@@ -869,10 +891,14 @@
     }
 
     @media (max-width: 500px) {
-      .hero-text-side { padding: 72px 20px 48px; }
+      .hero-intro { padding: 52px 20px 0; }
+      .hero-actions { padding: 0 20px 12px; }
+      .hero-name { font-size: 1.6rem; }
+      .hero-photo-side { height: 26vh; margin: 8px 0; }
       .hero-subtitle { letter-spacing: 2px; font-size: 0.68rem; }
       .hero-cta { gap: 10px; }
       .btn { padding: 12px 24px; font-size: 0.7rem; letter-spacing: 2px; }
+      .signup-form input { font-size: 0.9rem; }
       .gallery-slide { height: 240px; }
       .gallery-carousel-wrapper::before,
       .gallery-carousel-wrapper::after { display: none; }
@@ -904,12 +930,17 @@
 
   <!-- HERO -->
   <section class="hero" id="home">
-    <div class="hero-text-side">
-      <p class="hero-subtitle">Crossover Soprano &nbsp;&bull;&nbsp; Opera &nbsp;&bull;&nbsp; Musical Theatre</p>
+    <div class="hero-intro">
+      <p class="hero-subtitle">Crossover Soprano</p>
       <h1 class="hero-name">
         Julia
         <span>Perez Tooker</span>
       </h1>
+    </div>
+    <div class="hero-photo-side">
+      <img src="images/Julia_Portraits008_web.jpg" alt="Julia Perez Tooker, Soprano">
+    </div>
+    <div class="hero-actions">
       <div class="hero-cta">
         <a href="#performances" class="btn btn-gold">Performances</a>
         <a href="#contact" class="btn btn-outline">Book a Performance</a>
@@ -922,9 +953,6 @@
           <p class="signup-status" role="status" aria-live="polite"></p>
         </form>
       </div>
-    </div>
-    <div class="hero-photo-side">
-      <img src="images/Julia_Portraits008_web.jpg" alt="Julia Perez Tooker, Soprano">
     </div>
   </section>
 
