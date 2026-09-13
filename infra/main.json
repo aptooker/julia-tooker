@@ -1,0 +1,179 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.47.16.16243",
+      "templateHash": "6920988948372887956"
+    }
+  },
+  "parameters": {
+    "staticWebAppName": {
+      "type": "string",
+      "defaultValue": "julia-tooker-site-2d1a71",
+      "metadata": {
+        "description": "Globally unique Static Web App name."
+      }
+    },
+    "functionAppName": {
+      "type": "string",
+      "defaultValue": "julia-tooker-signup-api-2d1a71",
+      "metadata": {
+        "description": "Globally unique Function App name."
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "jptookersignups2d1a71",
+      "metadata": {
+        "description": "Globally unique storage account name, 3-24 lowercase letters and numbers."
+      }
+    },
+    "functionLocation": {
+      "type": "string",
+      "defaultValue": "eastus",
+      "metadata": {
+        "description": "Region for the Function App. East US is used because East US 2 has no Y1 quota."
+      }
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "tableName": "eventSignups"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-05-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "accessTier": "Hot",
+        "allowBlobPublicAccess": false,
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/staticSites",
+      "apiVersion": "2022-09-01",
+      "name": "[parameters('staticWebAppName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Free",
+        "tier": "Free"
+      },
+      "properties": {},
+      "tags": {
+        "app-onboard-skill": "true"
+      }
+    },
+    {
+      "type": "Microsoft.Web/staticSites/config",
+      "apiVersion": "2022-09-01",
+      "name": "[format('{0}/{1}', parameters('staticWebAppName'), 'appsettings')]",
+      "properties": {
+        "SIGNUPS_TABLE_NAME": "[variables('tableName')]",
+        "STORAGE_ACCOUNT_NAME": "[parameters('storageAccountName')]",
+        "STORAGE_ACCOUNT_KEY": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').keys[0].value]",
+        "AzureWebJobsStorage": "[format('DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix=core.windows.net', parameters('storageAccountName'), listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').keys[0].value)]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/staticSites', parameters('staticWebAppName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2023-12-01",
+      "name": "[format('{0}-plan', parameters('functionAppName'))]",
+      "location": "[parameters('functionLocation')]",
+      "kind": "functionapp",
+      "sku": {
+        "name": "Y1",
+        "tier": "Dynamic"
+      },
+      "properties": {
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2023-12-01",
+      "name": "[parameters('functionAppName')]",
+      "location": "[parameters('functionLocation')]",
+      "kind": "functionapp,linux",
+      "properties": {
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', format('{0}-plan', parameters('functionAppName')))]",
+        "httpsOnly": true,
+        "siteConfig": {
+          "linuxFxVersion": "Node|18",
+          "minTlsVersion": "1.2",
+          "appSettings": [
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~4"
+            },
+            {
+              "name": "FUNCTIONS_WORKER_RUNTIME",
+              "value": "node"
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "~18"
+            },
+            {
+              "name": "WEBSITE_RUN_FROM_PACKAGE",
+              "value": "1"
+            },
+            {
+              "name": "SIGNUPS_TABLE_NAME",
+              "value": "[variables('tableName')]"
+            },
+            {
+              "name": "STORAGE_ACCOUNT_NAME",
+              "value": "[parameters('storageAccountName')]"
+            },
+            {
+              "name": "STORAGE_ACCOUNT_KEY",
+              "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').keys[0].value]"
+            },
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[format('DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix=core.windows.net', parameters('storageAccountName'), listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2023-05-01').keys[0].value)]"
+            }
+          ],
+          "cors": {
+            "allowedOrigins": [
+              "[format('https://{0}', reference(resourceId('Microsoft.Web/staticSites', parameters('staticWebAppName')), '2022-09-01').defaultHostname)]"
+            ]
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', format('{0}-plan', parameters('functionAppName')))]",
+        "[resourceId('Microsoft.Web/staticSites', parameters('staticWebAppName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "staticWebAppHostname": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Web/staticSites', parameters('staticWebAppName')), '2022-09-01').defaultHostname]"
+    },
+    "signupEndpoint": {
+      "type": "string",
+      "value": "[format('https://{0}/api/signup', reference(resourceId('Microsoft.Web/staticSites', parameters('staticWebAppName')), '2022-09-01').defaultHostname)]"
+    },
+    "functionAppHostname": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Web/sites', parameters('functionAppName')), '2023-12-01').defaultHostName]"
+    }
+  }
+}

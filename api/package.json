@@ -1,0 +1,14 @@
+{
+  "name": "julia-tooker-signup-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Event signup API for Julia Perez Tooker",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@azure/data-tables": "^13.3.2",
+    "@azure/functions": "^4.7.2"
+  }
+}

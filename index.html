@@ -15,7 +15,7 @@
       --dark: #0e0e0e;
       --dark-mid: #1a1a1a;
       --cream: #f5f0e8;
-      --text-muted: #888;
+      --text-muted: #999;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,7 +37,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 24px 60px;
-      background: linear-gradient(to bottom, rgba(14,14,14,0.95), transparent);
+      background: rgba(14,14,14,0.97);
     }
 
     .nav-logo {
@@ -196,6 +196,11 @@
       margin: 20px 0;
     }
 
+    /* Offset anchor-link targets so the fixed nav doesn't cover them on scroll */
+    #about, #gallery, #repertoire, #performances, #contact {
+      scroll-margin-top: 110px;
+    }
+
     /* ABOUT */
     #about {
       background: var(--dark-mid);
@@ -267,10 +272,10 @@
       padding-top: 12px;
     }
 
-    .about-text-col p {
+    .about-text-col p:not(.section-label) {
       font-size: 1.05rem;
       line-height: 1.9;
-      color: #bbb;
+      color: #c7c7c7;
     }
 
     .about-tags {
@@ -486,7 +491,7 @@
       padding: 8px 0;
       border-bottom: 1px solid rgba(255,255,255,0.06);
       font-size: 0.9rem;
-      color: #aaa;
+      color: #b9b9b9;
       display: flex;
       justify-content: space-between;
     }
@@ -639,7 +644,7 @@
 
     .perf-info .venue {
       font-size: 0.8rem;
-      color: #d7d0c3;
+      color: #e6dfd2;
       margin-bottom: 6px;
       line-height: 1.5;
     }
@@ -647,7 +652,7 @@
     .perf-info .venue a,
     .perf-info .venue a:link,
     .perf-info .venue a:visited {
-      color: #d7d0c3;
+      color: #e6dfd2;
       text-decoration: none;
     }
 
@@ -713,7 +718,7 @@
 
     .contact-inner { max-width: 600px; margin: 0 auto; }
 
-    .contact-inner p {
+    .contact-inner p:not(.section-label) {
       color: var(--text-muted);
       font-size: 1rem;
       line-height: 1.8;
@@ -740,6 +745,27 @@
       color: var(--gold-light);
       border-color: var(--gold-light);
     }
+
+    .signup-form {
+      display: flex;
+      gap: 10px;
+      margin: 32px auto 36px;
+      max-width: 520px;
+    }
+
+    .signup-form input {
+      flex: 1;
+      min-width: 0;
+      padding: 14px 16px;
+      border: 1px solid rgba(201,168,76,0.35);
+      background: rgba(255,255,255,0.04);
+      color: var(--cream);
+      font: inherit;
+    }
+
+    .signup-form input::placeholder { color: var(--text-muted); }
+    .signup-form input:focus { outline: 1px solid var(--gold); }
+    .signup-status { min-height: 1.4em; margin: -20px auto 24px !important; color: var(--gold) !important; }
 
     .social-links {
       display: flex;
@@ -814,6 +840,7 @@
       .hero-text-side { padding: 80px 28px 60px; }
       nav { padding: 16px 20px; background: rgba(14,14,14,0.97); }
       .nav-logo img { height: 46px; }
+      #about, #gallery, #repertoire, #performances, #contact { scroll-margin-top: 90px; }
       .nav-links { display: none; flex-direction: column; gap: 0; position: fixed; top: 0; right: 0; bottom: 0; width: 70vw; max-width: 280px; background: rgba(14,14,14,0.97); padding: 80px 32px 40px; z-index: 99; }
       .nav-links.open { display: flex; }
       .nav-links li { border-bottom: 1px solid rgba(201,168,76,0.15); }
@@ -1051,25 +1078,6 @@
       <div class="perf-item-featured">
         <div class="perf-date">
           <span class="month">Sept</span>
-          <span class="day day-sm">11</span>
-          <span class="year">2026</span>
-        </div>
-        <div class="perf-info">
-          <h4><a href="https://www.operaguildofrochester.org/aria-slams" target="_blank" rel="noreferrer">Opera Guild of Rochester — Aria Slams</a></h4>
-          <div class="venue">Asbury First United Methodist Church</div>
-          <div class="venue">1050 East Ave., Rochester, NY</div>
-          <div class="venue">7:00 PM &nbsp;&middot;&nbsp; Free admission</div>
-          <div class="perf-badges">
-            <span class="role-badge">Featured Soloist</span>
-            <span class="perf-type-badge opera">Opera</span>
-          </div>
-        </div>
-        <img class="perf-feature-image" src="images/OperaAriaSlam9-27c.png" alt="Opera Guild of Rochester Aria Slams event poster" onclick="openLightbox(photos.length - 2)" />
-      </div>
-
-      <div class="perf-item-featured">
-        <div class="perf-date">
-          <span class="month">Sept</span>
           <span class="day day-sm">25-27</span>
           <span class="year">2026</span>
         </div>
@@ -1089,6 +1097,21 @@
 
       <!-- PAST -->
       <div class="perf-group-label">Past Highlights</div>
+
+      <div class="perf-item">
+        <div class="perf-date">
+          <span class="month">Sept</span>
+          <span class="day day-sm">2026</span>
+        </div>
+        <div class="perf-info">
+          <h4><a href="https://www.operaguildofrochester.org/aria-slams" target="_blank" rel="noreferrer">Opera Guild of Rochester — Aria Slams</a></h4>
+          <div class="venue">Asbury First United Methodist Church &nbsp;&middot;&nbsp; Rochester, NY</div>
+          <div class="perf-badges">
+            <span class="role-badge">Featured Soloist</span>
+            <span class="perf-type-badge opera">Opera</span>
+          </div>
+        </div>
+      </div>
 
       <div class="perf-item">
         <div class="perf-date">
@@ -1236,10 +1259,16 @@
       <p class="section-label">Get in Touch</p>
       <h2 class="section-title">Bookings &amp;<br>Inquiries</h2>
       <div class="divider" style="margin: 28px auto;"></div>
-      <p>
-        Julia is available for opera productions, musical theatre, orchestral concerts, cabarets, galas, Hispanic heritage events, and private engagements. She welcomes inquiries from directors, conductors, producers, and event organizers.
+      <p class="contact-lead">
+        Julia is available for opera productions, musical theatre, orchestral concerts, cabarets, galas, Hispanic heritage events, church, and private engagements. She welcomes inquiries from directors, conductors, producers, and event organizers.
       </p>
       <p>Resume available upon request.</p>
+      <form class="signup-form" id="signupForm">
+        <label class="sr-only" for="signupEmail">Email address</label>
+        <input id="signupEmail" name="email" type="email" autocomplete="email" placeholder="Your email for event announcements" required>
+        <button class="btn btn-gold" type="submit">Join List</button>
+      </form>
+      <p class="signup-status" id="signupStatus" role="status" aria-live="polite"></p>
       <a href="mailto:contact@julia-tooker.com" class="contact-email">contact@julia-tooker.com</a>
       <a href="#performances" class="btn btn-gold">View Full Calendar</a>
       <div class="social-links">
@@ -1266,7 +1295,6 @@
       'images/_8100718.jpg',
       'images/JuliaTookerHeadshot.jpg',
       'images/20250721_020716232_iOS_web.jpg',
-      'images/OperaAriaSlam9-27c.png',
       'images/Sept27Concert.jpg',
     ];
 
@@ -1318,6 +1346,32 @@
 
     navOverlay.addEventListener('click', closeMenu);
     navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    const signupForm = document.getElementById('signupForm');
+    const signupStatus = document.getElementById('signupStatus');
+    const signupApiUrl = 'https://julia-tooker-signup-api-2d1a71.azurewebsites.net/api/signup';
+    signupForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      const submitButton = signupForm.querySelector('button');
+      submitButton.disabled = true;
+      signupStatus.textContent = 'Joining the list...';
+
+      try {
+        const response = await fetch(signupApiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: signupForm.email.value, consent: true }),
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Signup failed.');
+        signupStatus.textContent = result.message;
+        signupForm.reset();
+      } catch (error) {
+        signupStatus.textContent = error.message || 'Signup failed. Please try again.';
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
 
     // Restart gallery animation after images load to fix width calculation on mobile
     const track = document.getElementById('galleryTrack');
