@@ -840,8 +840,10 @@
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; height: auto; }
-      .hero-photo-side { height: 60vw; }
-      .hero-text-side { padding: 80px 28px 60px; }
+      /* Lead with the photo on mobile, sized taller so less of her is
+         cropped, then the name/buttons follow below it. */
+      .hero-photo-side { height: 85vw; order: -1; margin-top: 88px; }
+      .hero-text-side { padding: 32px 28px 60px; }
       nav { padding: 16px 20px; background: rgba(14,14,14,0.97); }
       .nav-logo img { height: 46px; }
       #about, #gallery, #repertoire, #performances, #contact { scroll-margin-top: 90px; }
@@ -1277,6 +1279,7 @@
       <p class="contact-lead">
         Julia is available for opera productions, musical theatre, orchestral concerts, cabarets, galas, Hispanic heritage events, church, and private engagements. She welcomes inquiries from directors, conductors, producers, and event organizers.
       </p>
+      <a href="mailto:contact@julia-tooker.com" class="contact-email">contact@julia-tooker.com</a>
       <p>Resume available upon request.</p>
       <form class="signup-form">
         <label class="sr-only" for="contactSignupEmail">Email address</label>
@@ -1284,7 +1287,6 @@
         <button class="btn btn-gold" type="submit">Join List</button>
         <p class="signup-status" role="status" aria-live="polite"></p>
       </form>
-      <a href="mailto:contact@julia-tooker.com" class="contact-email">contact@julia-tooker.com</a>
       <a href="#performances" class="btn btn-gold">View Full Calendar</a>
       <div class="social-links">
         <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i><span>Instagram</span></a>
