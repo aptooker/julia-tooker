@@ -70,23 +70,24 @@
     .nav-links a:hover { color: var(--gold); }
     .hamburger { display: none; }
 
-    /* HERO — split layout. Grid rows 1 and 4 are flexible spacers, so
-       the intro/actions pair (rows 2-3) sits centered as a group in
-       the left column, while the photo spans the full height on the
-       right - same look as before, but as three independent items so
-       each can be reordered/resized on its own per breakpoint. */
+    /* HERO — the photo is a full-bleed background (not a separate
+       column) so it reads as one image the text sits on top of,
+       rather than a hard split. Grid rows 1 and 4 are flexible
+       spacers, centering the intro/actions pair as a group. Sizes use
+       clamp()/vw so the whole hero scales smoothly with window width
+       instead of jumping between fixed breakpoint values. */
     .hero {
       height: 100vh;
+      position: relative;
       display: grid;
-      grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr auto auto 1fr;
       overflow: hidden;
-      background: radial-gradient(ellipse at 80% 50%, #2a1f0e 0%, #0e0e0e 70%);
+      background: var(--dark);
     }
 
     .hero-intro, .hero-actions {
-      grid-column: 1;
-      padding: 0 60px;
+      max-width: clamp(600px, 42vw, 640px);
+      padding: 0 32px;
       position: relative;
       z-index: 1;
     }
@@ -95,10 +96,9 @@
     .hero-actions { grid-row: 3; }
 
     .hero-photo-side {
-      grid-column: 2;
-      grid-row: 1 / -1;
-      position: relative;
-      overflow: hidden;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
     }
 
     .hero-photo-side img {
@@ -113,8 +113,13 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to right, var(--dark) 0%, transparent 30%),
-                  linear-gradient(to top, rgba(14,14,14,0.4) 0%, transparent 40%);
+      background: linear-gradient(to right,
+                    rgba(14,14,14,0.95) 0%,
+                    rgba(14,14,14,0.88) 30%,
+                    rgba(14,14,14,0.5) 50%,
+                    rgba(14,14,14,0.1) 70%,
+                    transparent 85%),
+                  linear-gradient(to top, rgba(14,14,14,0.35) 0%, transparent 35%);
     }
 
     .hero-subtitle {
@@ -855,14 +860,18 @@
         grid-template-rows: auto;
         height: auto;
       }
-      .hero-intro, .hero-actions, .hero-photo-side {
+      .hero-intro, .hero-actions {
         grid-column: 1;
         grid-row: auto;
+        max-width: none;
       }
       .hero-intro { padding: 70px 24px 0; }
       .hero-subtitle { margin-bottom: 8px; }
       .hero-name { font-size: 2.8rem; }
-      .hero-photo-side { height: 42vh; margin: 10px 0; }
+      /* On mobile the photo goes back to being a normal block in the
+         stack (not the full-bleed background used on desktop). */
+      .hero-photo-side { position: static; inset: auto; height: 42vh; margin: 10px 0; }
+      .hero-photo-side::after { display: none; }
       .hero-actions { padding: 0 24px 16px; }
       .hero-cta { margin-top: 0; gap: 8px; }
       .hero-signup { margin-top: 10px; }
