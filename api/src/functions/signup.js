@@ -7,6 +7,9 @@ const tableName = process.env.SIGNUPS_TABLE_NAME || 'eventSignups';
 const senderAddress = process.env.EMAIL_SENDER || 'contact@julia-tooker.com';
 const senderName = process.env.EMAIL_SENDER_NAME || 'Julia Perez Tooker';
 const siteUrl = process.env.SITE_URL || 'https://julia-tooker.com';
+// BCC'd on every welcome email so the site owner sees who signed up and
+// what they received. Set NOTIFY_EMAIL to '' to turn this off.
+const notifyEmail = process.env.NOTIFY_EMAIL === '' ? '' : (process.env.NOTIFY_EMAIL || 'ana.tooker@gmail.com');
 // The marketing site (julia-tooker.com) is static and has no /api routes -
 // unsubscribe links must point at this Function App's own host, not the site.
 const apiBaseUrl = process.env.API_BASE_URL || 'https://julia-tooker-signup-api-2d1a71.azurewebsites.net';
@@ -58,6 +61,7 @@ async function sendEmail({ recipient, subject, textBody, htmlBody }) {
       api_key: apiKey,
       sender: `${senderName} <${senderAddress}>`,
       to: [recipient],
+      ...(notifyEmail ? { bcc: [notifyEmail] } : {}),
       subject,
       text_body: textBody,
       html_body: htmlBody,
