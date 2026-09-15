@@ -77,7 +77,13 @@
        clamp()/vw so the whole hero scales smoothly with window width
        instead of jumping between fixed breakpoint values. */
     .hero {
-      height: 100vh;
+      /* Capping height by width (~image's own 1620:1080 ratio) as well
+         as viewport height keeps the crop close to the source photo's
+         shape on tall/narrow windows, instead of object-fit:cover
+         forcing a heavy zoom to fill a much taller box. On typical
+         wide monitors 100vh still wins, filling the screen as before. */
+      height: min(100vh, 66.67vw);
+      min-height: 560px;
       position: relative;
       display: grid;
       grid-template-rows: 1fr auto auto 1fr;
