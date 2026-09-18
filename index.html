@@ -72,8 +72,8 @@
 
     /* HERO — the photo is a full-bleed background (not a separate
        column) so it reads as one image the text sits on top of,
-       rather than a hard split. Grid rows 1 and 4 are flexible
-       spacers, centering the intro/actions pair as a group. Sizes use
+       rather than a hard split. Grid rows 1 and 3 are flexible
+       spacers, vertically centering the intro block. Sizes use
        clamp()/vw so the whole hero scales smoothly with window width
        instead of jumping between fixed breakpoint values. */
     .hero {
@@ -86,20 +86,18 @@
       min-height: 560px;
       position: relative;
       display: grid;
-      grid-template-rows: 1fr auto auto 1fr;
+      grid-template-rows: 1fr auto 1fr;
       overflow: hidden;
       background: var(--dark);
     }
 
-    .hero-intro, .hero-actions {
+    .hero-intro {
       max-width: clamp(600px, 42vw, 640px);
       padding: 0 32px;
       position: relative;
       z-index: 1;
+      grid-row: 2;
     }
-
-    .hero-intro { grid-row: 2; }
-    .hero-actions { grid-row: 3; }
 
     .hero-photo-side {
       position: absolute;
@@ -149,13 +147,6 @@
       display: block;
       font-style: italic;
       color: var(--gold-light);
-    }
-
-    .hero-cta {
-      margin-top: 40px;
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
     }
 
     .btn {
@@ -787,13 +778,12 @@
     .signup-form input:focus { outline: 1px solid var(--gold); }
     .signup-status { flex-basis: 100%; min-height: 0; margin: 0; color: var(--gold); }
 
-    .hero-signup { margin-top: 28px; }
-    .hero-signup .signup-form { margin: 0; }
-
     .social-links {
       display: flex;
       justify-content: center;
-      gap: 24px;
+      flex-wrap: wrap;
+      row-gap: 16px;
+      column-gap: 24px;
       margin-top: 0;
     }
 
@@ -858,15 +848,15 @@
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
-      /* Stack in DOM order - name/subtitle, then photo, then the
-         buttons - instead of the desktop grid placement, and keep
-         everything compact so it comfortably fits one screen. */
+      /* Stack in DOM order - name/subtitle, then photo - instead of
+         the desktop grid placement, and keep everything compact so
+         it comfortably fits one screen. */
       .hero {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         height: auto;
       }
-      .hero-intro, .hero-actions {
+      .hero-intro {
         grid-column: 1;
         grid-row: auto;
         max-width: none;
@@ -876,13 +866,10 @@
       .hero-name { font-size: 2.8rem; }
       /* On mobile the photo goes back to being a normal block in the
          stack (not the full-bleed background used on desktop). */
-      .hero-photo-side { position: static; inset: auto; height: 42vh; margin: 10px 0; }
+      .hero-photo-side { position: static; inset: auto; height: 42vh; margin: 10px 0 28px; }
       .hero-photo-side::after { display: none; }
-      .hero-actions { padding: 0 24px 16px; }
-      .hero-cta { margin-top: 0; gap: 8px; }
-      .hero-signup { margin-top: 10px; }
-      /* Smaller, less heavy buttons on mobile so they don't dominate
-         the screen next to the photo. */
+      /* Smaller, less heavy buttons on mobile (e.g. the contact
+         page's Subscribe button) so they don't feel oversized. */
       .btn { padding: 10px 26px; font-size: 0.68rem; letter-spacing: 2px; }
       nav { padding: 16px 20px; background: rgba(14,14,14,0.97); }
       .nav-logo img { height: 46px; }
@@ -910,11 +897,9 @@
 
     @media (max-width: 500px) {
       .hero-intro { padding: 52px 20px 0; }
-      .hero-actions { padding: 0 20px 12px; }
       .hero-name { font-size: 2.2rem; }
-      .hero-photo-side { height: 34vh; margin: 8px 0; }
+      .hero-photo-side { height: 34vh; margin: 8px 0 20px; }
       .hero-subtitle { letter-spacing: 2px; font-size: 0.68rem; }
-      .hero-cta { gap: 8px; }
       .btn { padding: 9px 22px; font-size: 0.65rem; letter-spacing: 2px; }
       .signup-form input { font-size: 0.9rem; }
       .gallery-slide { height: 240px; }
