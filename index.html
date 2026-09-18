@@ -741,7 +741,7 @@
       color: var(--text-muted);
       font-size: 1rem;
       line-height: 1.8;
-      margin: 20px 0 32px;
+      margin: 20px 0 16px;
     }
 
     .contact-email {
@@ -769,7 +769,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin: 32px auto 36px;
+      margin: 32px auto 0;
       max-width: 520px;
     }
 
@@ -785,7 +785,7 @@
 
     .signup-form input::placeholder { color: var(--text-muted); }
     .signup-form input:focus { outline: 1px solid var(--gold); }
-    .signup-status { flex-basis: 100%; min-height: 1.4em; margin: 0; color: var(--gold); }
+    .signup-status { flex-basis: 100%; min-height: 0; margin: 0; color: var(--gold); }
 
     .hero-signup { margin-top: 28px; }
     .hero-signup .signup-form { margin: 0; }
@@ -794,7 +794,7 @@
       display: flex;
       justify-content: center;
       gap: 24px;
-      margin-top: 40px;
+      margin-top: 0;
     }
 
     .social-links a {
@@ -957,20 +957,6 @@
     </div>
     <div class="hero-photo-side">
       <img src="images/Julia_Portraits008_web.jpg" alt="Julia Perez Tooker, Soprano">
-    </div>
-    <div class="hero-actions">
-      <div class="hero-cta">
-        <a href="#performances" class="btn btn-gold">Performances</a>
-        <a href="#contact" class="btn btn-outline">Book a Performance</a>
-      </div>
-      <div class="hero-signup">
-        <form class="signup-form">
-          <label class="sr-only" for="heroSignupEmail">Email address</label>
-          <input id="heroSignupEmail" name="email" type="email" autocomplete="email" placeholder="Your email for event announcements" required>
-          <button class="btn btn-gold" type="submit">Join List</button>
-          <p class="signup-status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
     </div>
   </section>
 
@@ -1323,14 +1309,14 @@
       <h2 class="section-title">Bookings &amp;<br>Inquiries</h2>
       <div class="divider" style="margin: 28px auto;"></div>
       <p class="contact-lead">
-        Julia is available for opera productions, musical theatre, orchestral concerts, cabarets, galas, church, and private engagements. She welcomes inquiries from directors, conductors, producers, and event organizers.
+        Julia is available for musical theatre, opera productions, concerts, cabarets, church, and private engagements.
       </p>
       <a href="mailto:contact@julia-tooker.com" class="contact-email">contact@julia-tooker.com</a>
-      <p>Resume available upon request.</p>
+    <!-- <!<p>Resume available upon request.</p> -->
       <form class="signup-form">
         <label class="sr-only" for="contactSignupEmail">Email address</label>
-        <input id="contactSignupEmail" name="email" type="email" autocomplete="email" placeholder="Your email for event announcements" required>
-        <button class="btn btn-gold" type="submit">Join List</button>
+        <input id="contactSignupEmail" name="email" type="email" autocomplete="email" placeholder="Enter email for event announcements" required>
+        <button class="btn btn-gold" type="submit">Subscribe</button>
         <p class="signup-status" role="status" aria-live="polite"></p>
       </form>
       <!-- a href="#performances" class="btn btn-gold">View Full Calendar</a> -->
