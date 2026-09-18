@@ -849,16 +849,21 @@
     /* RESPONSIVE */
     @media (max-width: 900px) {
       /* Stack in DOM order - name/subtitle, then photo - instead of
-         the desktop grid placement, and keep everything compact so
-         it comfortably fits one screen. */
+         the desktop grid placement. min-height fills the first
+         screen (like the desktop hero) so short viewports (e.g.
+         iPhone SE) don't reveal a sliver of the About photo below
+         before the user scrolls; the 1fr spacer rows center the
+         intro/photo pair within that space. */
       .hero {
         grid-template-columns: 1fr;
-        grid-template-rows: auto;
+        grid-template-rows: 1fr auto auto 1fr;
         height: auto;
+        min-height: 100vh;
+        min-height: 100svh;
       }
       .hero-intro {
         grid-column: 1;
-        grid-row: auto;
+        grid-row: 2;
         max-width: none;
       }
       .hero-intro { padding: 70px 24px 0; }
@@ -866,7 +871,7 @@
       .hero-name { font-size: 2.8rem; }
       /* On mobile the photo goes back to being a normal block in the
          stack (not the full-bleed background used on desktop). */
-      .hero-photo-side { position: static; inset: auto; height: 42vh; margin: 10px 0 28px; }
+      .hero-photo-side { position: static; inset: auto; grid-row: 3; height: 42vh; margin: 10px 0 28px; }
       .hero-photo-side::after { display: none; }
       /* Smaller, less heavy buttons on mobile (e.g. the contact
          page's Subscribe button) so they don't feel oversized. */
@@ -1380,6 +1385,26 @@
 
     navOverlay.addEventListener('click', closeMenu);
     navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    // Drive in-page section links ourselves instead of relying on the
+    // browser's native #hash jump + scroll-margin-top: iOS Safari can
+    // miscalculate that landing spot (e.g. tapping "Gallery" in the
+    // nav ending up scrolled into Repertoire instead). Computing the
+    // offset live from the actual nav height at click time is robust
+    // to that regardless of the exact cause.
+    const navEl = document.querySelector('nav');
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (href.length < 2) return; // bare "#" — let it jump to the top natively
+      const target = document.querySelector(href);
+      if (!target) return;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.pageYOffset - navEl.offsetHeight - 12;
+        window.scrollTo({ top, behavior: 'smooth' });
+        history.pushState(null, '', href);
+      });
+    });
 
     const signupApiUrl = 'https://julia-tooker-signup-api-2d1a71.azurewebsites.net/api/signup';
     document.querySelectorAll('.signup-form').forEach(signupForm => {
