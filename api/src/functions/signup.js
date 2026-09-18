@@ -1,77 +1,13 @@
 const { app } = require('@azure/functions');
-const { TableClient, AzureNamedKeyCredential } = require('@azure/data-tables');
 const crypto = require('crypto');
 const { buildWelcomeEmail, buildUnsubscribePage } = require('../emailTemplates');
+const { corsHeaders, getTableClient, sendEmail, getClientIp, checkRateLimit } = require('../lib/shared');
 
 const tableName = process.env.SIGNUPS_TABLE_NAME || 'eventSignups';
-const senderAddress = process.env.EMAIL_SENDER || 'contact@julia-tooker.com';
-const senderName = process.env.EMAIL_SENDER_NAME || 'Julia Perez Tooker';
 const siteUrl = process.env.SITE_URL || 'https://julia-tooker.com';
-// BCC'd on every welcome email so the site owner sees who signed up and
-// what they received. Set NOTIFY_EMAIL to '' to turn this off.
-const notifyEmail = process.env.NOTIFY_EMAIL === '' ? '' : (process.env.NOTIFY_EMAIL || 'ana.tooker@gmail.com');
 // The marketing site (julia-tooker.com) is static and has no /api routes -
 // unsubscribe links must point at this Function App's own host, not the site.
 const apiBaseUrl = process.env.API_BASE_URL || 'https://julia-tooker-signup-api-2d1a71.azurewebsites.net';
-
-// The site (julia-tooker.com, on GitHub Pages) and this API (a standalone
-// Azure Function App) live on different origins, so browsers require this
-// API to answer CORS preflights and echo back an allowed origin.
-const allowedOrigins = new Set(
-  (process.env.CORS_ALLOWED_ORIGINS || 'https://julia-tooker.com,https://www.julia-tooker.com')
-    .split(',')
-    .map(origin => origin.trim())
-    .filter(Boolean),
-);
-
-function corsHeaders(request) {
-  const origin = request.headers.get('origin');
-  const headers = {
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
-  if (origin && allowedOrigins.has(origin)) {
-    headers['Access-Control-Allow-Origin'] = origin;
-  }
-  return headers;
-}
-
-function getTableClient() {
-  const accountName = process.env.STORAGE_ACCOUNT_NAME;
-  const accountKey = process.env.STORAGE_ACCOUNT_KEY;
-  if (!accountName || !accountKey) {
-    throw new Error('Storage configuration is missing.');
-  }
-
-  return new TableClient(
-    `https://${accountName}.table.core.windows.net`,
-    tableName,
-    new AzureNamedKeyCredential(accountName, accountKey),
-  );
-}
-
-async function sendEmail({ recipient, subject, textBody, htmlBody }) {
-  const apiKey = process.env.SMTP2GO_API_KEY;
-  if (!apiKey) throw new Error('SMTP2GO API key is not configured.');
-
-  const response = await fetch('https://api.smtp2go.com/v3/email/send', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      api_key: apiKey,
-      sender: `${senderName} <${senderAddress}>`,
-      to: [recipient],
-      ...(notifyEmail ? { bcc: [notifyEmail] } : {}),
-      subject,
-      text_body: textBody,
-      html_body: htmlBody,
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`SMTP2GO returned HTTP ${response.status}.`);
-  }
-}
 
 app.http('signup', {
   methods: ['POST', 'OPTIONS'],
@@ -85,16 +21,31 @@ app.http('signup', {
 
     try {
       const body = await request.json();
+
+      // Honeypot: a hidden field real visitors never fill in. Bots that
+      // blindly fill every input trip it - respond with the normal
+      // success message but skip all real work, so they don't learn
+      // they were caught.
+      if (typeof body.company === 'string' && body.company.trim() !== '') {
+        return { status: 201, headers, jsonBody: { message: 'You are on the list. Thank you!' } };
+      }
+
       const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
 
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return { status: 400, headers, jsonBody: { message: 'Please enter a valid email address.' } };
       }
 
-      const table = getTableClient();
+      const table = getTableClient(tableName);
       await table.createTable().catch(error => {
         if (error.statusCode !== 409) throw error;
       });
+
+      const ip = getClientIp(request);
+      const withinLimit = await checkRateLimit(table, 'signup', ip, { maxRequests: 5, windowMs: 60 * 60 * 1000 });
+      if (!withinLimit) {
+        return { status: 429, headers, jsonBody: { message: 'Too many signups from this connection. Please try again later.' } };
+      }
 
       const rowKey = encodeURIComponent(email);
       const unsubscribeToken = crypto.randomUUID();
@@ -165,7 +116,7 @@ app.http('unsubscribe', {
     if (!token) return page(400, 'Invalid Link', 'This unsubscribe link is missing its token, so we could not process it.');
 
     try {
-      const table = getTableClient();
+      const table = getTableClient(tableName);
       const entities = table.listEntities({ queryOptions: { filter: `PartitionKey eq 'event-news' and unsubscribeToken eq '${token.replace(/'/g, "''")}'` } });
       for await (const entity of entities) {
         await table.updateEntity({

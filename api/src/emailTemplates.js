@@ -1,5 +1,7 @@
-// Email templates sent by the signup function.
+// Email templates sent by the signup and contact functions.
 // Keep markup email-client-safe: table layout, inline styles, web-safe font fallbacks.
+
+const { escapeHtml } = require('./lib/shared');
 
 // Bump this whenever images/email-hero-banner.jpg changes. Gmail (and other
 // clients) proxy and cache remote images by URL, so reusing the same URL
@@ -132,6 +134,50 @@ Unsubscribe: ${unsubscribeUrl}`;
   return { subject, textBody, htmlBody };
 }
 
+// Notification email sent to the site owner when someone submits the
+// Contact section's form. name/email/message are visitor-supplied, so
+// they're HTML-escaped before landing in the markup body.
+function buildContactNotificationEmail({ name, email, message }) {
+  const subject = `New website inquiry from ${name}`;
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+
+  const textBody = `New inquiry from the website contact form.
+
+Name: ${name}
+Email: ${email}
+
+${message}`;
+
+  const htmlBody = `<!doctype html>
+<html>
+  <head><meta charset="utf-8"></head>
+  <body style="margin:0; padding:0; background:#0e0e0e; font-family: Arial, Helvetica, sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0e0e0e;">
+      <tr>
+        <td align="center" style="padding: 24px 12px;">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background:#1a1a1a; border:1px solid rgba(201,168,76,0.25);">
+            <tr>
+              <td style="padding: 24px 28px;">
+                <p style="margin:0 0 4px; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:#c9a84c;">New Website Inquiry</p>
+                <h1 style="margin:0 0 16px; font-family: Georgia, 'Times New Roman', serif; font-weight:400; font-size:20px; color:#f5f0e8;">${safeName}</h1>
+                <p style="margin:0 0 16px; font-size:13px; color:#e6dfd2;">
+                  <a href="mailto:${safeEmail}" style="color:#c9a84c;">${safeEmail}</a>
+                </p>
+                <p style="margin:0; font-size:14px; line-height:1.6; color:#f5f0e8;">${safeMessage}</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+
+  return { subject, textBody, htmlBody };
+}
+
 // A small branded landing page for the unsubscribe link - this is a normal
 // browser page (not an email), so real fonts/CSS are fair game here.
 function buildUnsubscribePage({ siteUrl, heading, message }) {
@@ -209,4 +255,4 @@ function buildUnsubscribePage({ siteUrl, heading, message }) {
 </html>`;
 }
 
-module.exports = { buildWelcomeEmail, buildUnsubscribePage };
+module.exports = { buildWelcomeEmail, buildContactNotificationEmail, buildUnsubscribePage };
