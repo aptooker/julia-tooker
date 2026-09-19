@@ -1031,6 +1031,10 @@
       margin-top: 24px;
     }
 
+    /* Under-the-photo mobile/tablet variant - hidden on desktop, shown
+       (and restyled smaller/tighter) in the <=900px media query. */
+    .hero-social-mobile { display: none; }
+
     @media (max-width: 500px) {
       .perf-item-featured {
         grid-template-columns: 70px 1fr;
@@ -1081,7 +1085,7 @@
          intro/photo pair within that space. */
       .hero {
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr auto auto 1fr;
+        grid-template-rows: 1fr auto auto auto 1fr;
         height: auto;
         min-height: 100vh;
         min-height: 100svh;
@@ -1096,8 +1100,20 @@
       .hero-name { font-size: 2.8rem; }
       /* On mobile the photo goes back to being a normal block in the
          stack (not the full-bleed background used on desktop). */
-      .hero-photo-side { position: static; inset: auto; grid-row: 3; height: 42vh; margin: 10px 0 28px; }
+      .hero-photo-side { position: static; inset: auto; grid-row: 3; height: 42vh; margin: 10px 0 16px; }
       .hero-photo-side::after { display: none; }
+      /* Swap which social row is visible: under the name on desktop,
+         under the photo (smaller, tighter) on mobile/tablet. */
+      .hero-social-desktop { display: none; }
+      .hero-social-mobile {
+        display: flex;
+        grid-row: 4;
+        justify-content: center;
+        gap: 10px;
+        margin: 0 0 24px;
+      }
+      .hero-social-mobile a { min-width: 38px; min-height: 38px; }
+      .hero-social-mobile a i { font-size: 1.05rem; }
       /* Smaller, less heavy buttons on mobile (e.g. the contact
          page's Subscribe button) so they don't feel oversized. */
       .btn { padding: 10px 26px; font-size: 0.68rem; letter-spacing: 2px; }
@@ -1128,7 +1144,7 @@
     @media (max-width: 500px) {
       .hero-intro { padding: 52px 20px 0; }
       .hero-name { font-size: 2.2rem; }
-      .hero-photo-side { height: 34vh; margin: 8px 0 20px; }
+      .hero-photo-side { height: 34vh; margin: 8px 0 12px; }
       .hero-subtitle { letter-spacing: 2px; font-size: 0.68rem; }
       .btn { padding: 9px 22px; font-size: 0.65rem; letter-spacing: 2px; }
       .signup-form input { font-size: 0.9rem; }
@@ -1173,7 +1189,7 @@
         Julia
         <span>Perez Tooker</span>
       </h1>
-      <div class="social-links hero-social">
+      <div class="social-links hero-social hero-social-desktop">
         <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
         <a href="https://www.youtube.com/@juliatookersoprano" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
         <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener"><i class="fab fa-facebook-f" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
@@ -1182,6 +1198,12 @@
     </div>
     <div class="hero-photo-side">
       <img src="images/Julia_Portraits008_web.jpg" alt="Julia Perez Tooker, Soprano">
+    </div>
+    <div class="social-links hero-social-mobile">
+      <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
+      <a href="https://www.youtube.com/@juliatookersoprano" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
+      <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener"><i class="fab fa-facebook-f" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
+      <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener"><i class="fab fa-tiktok" aria-hidden="true"></i><span class="sr-only">TikTok</span></a>
     </div>
   </section>
 
