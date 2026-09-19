@@ -1619,6 +1619,14 @@
     <p>&copy; 2026 Julia Perez Tooker &middot; Soprano &middot; All rights reserved</p>
   </footer>
 
+  <!-- Sized by JS to whatever's needed so the Contact nav link can
+       always scroll flush under the nav - Contact is the last section,
+       so on tall viewports there's often not enough page left below it
+       for the browser to scroll that far (it hits the natural bottom
+       of the document and stops short). Invisible and 0px whenever
+       there's already enough room. -->
+  <div id="scrollSpacer" aria-hidden="true"></div>
+
   <script>
     const photos = [
       'images/DieFledermaus-JT.jpg',
@@ -1740,6 +1748,32 @@
     navOverlay.addEventListener('click', closeMenu);
     navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
+    // Contact is the last section on the page, so on tall viewports
+    // there's often not enough room below it for the browser to
+    // actually scroll it flush under the nav - it hits the natural
+    // bottom of the document and stops short (this is the "Contact
+    // link doesn't work" bug: it's the only link this can happen to,
+    // since every other section always has more content below it).
+    // Keep an invisible spacer after the footer just tall enough to
+    // close that gap for the current viewport, recomputed on resize
+    // and once images have finished loading (they can shift the
+    // page's natural height).
+    const scrollSpacer = document.getElementById('scrollSpacer');
+    const lastSectionEl = document.getElementById('contact');
+
+    function updateScrollSpacer() {
+      if (!scrollSpacer || !lastSectionEl) return;
+      scrollSpacer.style.height = '0px';
+      const sectionTop = lastSectionEl.getBoundingClientRect().top + window.scrollY;
+      const needed = sectionTop - navBarEl.offsetHeight - 12 + window.innerHeight;
+      const shortfall = needed - document.documentElement.scrollHeight;
+      scrollSpacer.style.height = Math.max(0, shortfall) + 'px';
+    }
+
+    updateScrollSpacer();
+    window.addEventListener('resize', updateScrollSpacer);
+    window.addEventListener('load', updateScrollSpacer);
+
     // Drive in-page section links ourselves instead of relying on the
     // browser's native #hash jump + scroll-margin-top: iOS Safari can
     // miscalculate that landing spot (e.g. tapping "Gallery" in the
@@ -1839,6 +1873,7 @@
           track.style.animation = 'none';
           track.offsetHeight; // force reflow
           track.style.animation = '';
+          updateScrollSpacer(); // gallery images loading can shift page height
         }
       };
       imgs.forEach(img => img.complete ? restart() : img.addEventListener('load', restart));
