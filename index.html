@@ -860,19 +860,27 @@
       .perf-ticket-link { grid-column: 2; }
     }
 
-    /* CONTACT */
+    /* CONTACT - deliberately more compact than the other sections (see
+       .contact-form/.signup-form/.section-title overrides below too)
+       so the whole section comes closer to fitting one screen instead
+       of requiring a scroll. */
     .contact-section {
       text-align: center;
       background: radial-gradient(ellipse at center, #1a140a 0%, var(--dark) 70%);
+      padding: clamp(32px, 5vw, 56px) clamp(24px, 5vw, 60px);
+    }
+
+    .contact-section .section-title {
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
     }
 
     .contact-inner { max-width: 600px; margin: 0 auto; }
 
     .contact-inner p:not(.section-label) {
       color: var(--text-muted);
-      font-size: 1rem;
-      line-height: 1.8;
-      margin: 20px 0 16px;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin: 8px 0 10px;
     }
 
     /* Hides a decoy field from sighted/keyboard/screen-reader users
@@ -889,15 +897,15 @@
     .contact-form {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin: 32px auto 0;
+      gap: 8px;
+      margin: 16px auto 0;
       max-width: 520px;
       text-align: left;
     }
 
     .contact-form-row {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -909,7 +917,7 @@
     .contact-form input,
     .contact-form textarea {
       width: 100%;
-      padding: 14px 16px;
+      padding: 10px 14px;
       border: 1px solid rgba(201,168,76,0.35);
       background: rgba(255,255,255,0.04);
       color: var(--cream);
@@ -918,7 +926,7 @@
 
     .contact-form textarea {
       resize: vertical;
-      min-height: 110px;
+      min-height: 64px;
     }
 
     .contact-form input::placeholder,
@@ -932,15 +940,15 @@
     .signup-form {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin: 32px auto 0;
+      gap: 8px;
+      margin: 14px auto 0;
       max-width: 520px;
     }
 
     .signup-form input {
       flex: 1;
       min-width: 0;
-      padding: 14px 16px;
+      padding: 10px 14px;
       border: 1px solid rgba(201,168,76,0.35);
       background: rgba(255,255,255,0.04);
       color: var(--cream);
@@ -951,27 +959,22 @@
     .signup-form input:focus { outline: 1px solid var(--gold); }
     .signup-status { flex-basis: 100%; min-height: 0; margin: 0; color: var(--gold); }
 
+    /* Icon-only (the label text stays for screen readers via .sr-only)
+       so all four fit on one line even on narrow phones. */
     .social-links {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      row-gap: 16px;
-      column-gap: 24px;
+      gap: 20px;
       margin-top: 0;
     }
 
     .social-links a {
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
       min-width: 44px;
       min-height: 44px;
-      padding: 6px 10px;
-      font-size: 0.62rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
       color: var(--text-muted);
       text-decoration: none;
       transition: color 0.3s;
@@ -982,6 +985,15 @@
     }
 
     .social-links a:hover { color: var(--gold); }
+
+    .contact-section .btn { padding: 10px 28px; }
+
+    /* Left-aligned, smaller variant used in the hero. */
+    .hero-social {
+      justify-content: flex-start;
+      gap: 16px;
+      margin-top: 24px;
+    }
 
     @media (max-width: 500px) {
       .perf-item-featured {
@@ -1125,6 +1137,12 @@
         Julia
         <span>Perez Tooker</span>
       </h1>
+      <div class="social-links hero-social">
+        <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
+        <a href="https://www.youtube.com/@juliatookersoprano" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
+        <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener"><i class="fab fa-facebook-f" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
+        <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener"><i class="fab fa-tiktok" aria-hidden="true"></i><span class="sr-only">TikTok</span></a>
+      </div>
     </div>
     <div class="hero-photo-side">
       <img src="images/Julia_Portraits008_web.jpg" alt="Julia Perez Tooker, Soprano">
@@ -1477,8 +1495,8 @@
   <section id="contact" class="contact-section">
     <div class="contact-inner">
       <p class="section-label">Get in Touch</p>
-      <h2 class="section-title">Bookings &amp;<br>Inquiries</h2>
-      <div class="divider" style="margin: 28px auto;"></div>
+      <h2 class="section-title">Bookings &amp; Inquiries</h2>
+      <div class="divider" style="margin: 12px auto;"></div>
       <p class="contact-lead">
         Julia is available for musical theatre, opera productions, concerts, cabarets, church, and private engagements.
       </p>
@@ -1498,7 +1516,7 @@
           </div>
         </div>
         <label class="sr-only" for="contactMessage">Message</label>
-        <textarea id="contactMessage" name="message" rows="5" placeholder="Tell Julia about your event or inquiry" required></textarea>
+        <textarea id="contactMessage" name="message" rows="3" placeholder="Tell Julia about your event or inquiry" required></textarea>
         <button class="btn btn-gold" type="submit">Send Message</button>
         <p class="signup-status" role="status" aria-live="polite"></p>
       </form>
@@ -1514,10 +1532,10 @@
       </form>
       <!-- a href="#performances" class="btn btn-gold">View Full Calendar</a> -->
       <div class="social-links">
-        <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
-        <a href="https://www.youtube.com/@juliatookersoprano" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i><span>YouTube</span></a>
-        <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a>
-        <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener"><i class="fab fa-tiktok" aria-hidden="true"></i><span>TikTok</span></a>
+        <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
+        <a href="https://www.youtube.com/@juliatookersoprano" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i><span class="sr-only">YouTube</span></a>
+        <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener"><i class="fab fa-facebook-f" aria-hidden="true"></i><span class="sr-only">Facebook</span></a>
+        <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener"><i class="fab fa-tiktok" aria-hidden="true"></i><span class="sr-only">TikTok</span></a>
       </div>
     </div>
   </section>
