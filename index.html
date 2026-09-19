@@ -36,6 +36,51 @@
       border: 0;
     }
 
+    /* Hidden until focused, so keyboard users can jump straight past
+       the nav to the main content instead of tabbing through it every
+       time. */
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 8px;
+      z-index: 1000;
+      background: var(--gold);
+      color: var(--dark);
+      padding: 12px 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: top 0.2s;
+    }
+
+    .skip-link:focus {
+      top: 8px;
+    }
+
+    /* A consistent, on-brand focus indicator for links/buttons that
+       don't already define their own :focus style, so keyboard focus
+       is always clearly visible against the dark theme. */
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    /* Respect the OS-level "reduce motion" preference: stop the
+       continuously auto-scrolling gallery and smooth-scroll jumps,
+       and shrink every other transition/animation to effectively
+       nothing rather than removing them (which can break
+       animation-driven show/hide logic). */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
     body {
       background: var(--dark);
       color: var(--cream);
@@ -229,6 +274,11 @@
     /* ABOUT */
     #about {
       background: var(--dark-mid);
+      /* Now a <section> (for landmark/heading consistency with the
+         other sections), which would otherwise pick up the global
+         `section` padding on top of .about-wrapper's own - cancel it
+         out here since .about-wrapper already handles it. */
+      padding: 0;
     }
 
     .about-wrapper {
@@ -334,6 +384,29 @@
       margin-bottom: 28px;
     }
 
+    /* The carousel auto-scrolls continuously, which WCAG 2.2.2 requires
+       a pause control for (mouse hover alone doesn't help touch or
+       keyboard users). This button toggles the .paused class below. */
+    .gallery-pause-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 44px;
+      min-height: 44px;
+      margin: 0 auto;
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.35);
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .gallery-pause-toggle:hover { color: var(--gold); border-color: var(--gold); }
+
     @keyframes galleryScroll {
       0%   { transform: translateX(0); }
       100% { transform: translateX(-50%); }
@@ -369,8 +442,13 @@
       display: flex;
       gap: 8px;
       width: max-content;
-      animation: galleryScroll 24s linear infinite;
     }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .gallery-track { animation: galleryScroll 24s linear infinite; }
+    }
+
+    .gallery-track.paused { animation-play-state: paused; }
 
     .gallery-slide {
       flex-shrink: 0;
@@ -379,6 +457,16 @@
       cursor: pointer;
       position: relative;
       background: #111;
+      /* Reset browser default button chrome now that slides are
+         <button> elements (needed for keyboard access to the
+         lightbox), while keeping the same visual layout as before. */
+      display: block;
+      appearance: none;
+      -webkit-appearance: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      color: inherit;
     }
 
     .gallery-slide img {
@@ -426,7 +514,12 @@
 
     .lightbox-close {
       position: absolute;
-      top: 24px; right: 32px;
+      top: 16px; right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
       font-size: 2rem;
       color: var(--cream);
       cursor: pointer;
@@ -570,15 +663,25 @@
 
     .perf-item-featured:hover { background: rgba(201,168,76,0.10); }
 
-    .perf-feature-image {
+    .perf-feature-image-btn {
       width: 280px;
       max-height: 280px;
-      object-fit: contain;
       background: rgba(0,0,0,0.12);
       border: none;
+      padding: 0;
       display: block;
+      appearance: none;
+      -webkit-appearance: none;
       margin-left: auto;
       cursor: pointer;
+    }
+
+    .perf-feature-image-btn img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-height: 280px;
+      object-fit: contain;
     }
 
     /* Standard past row */
@@ -678,7 +781,11 @@
     .perf-info .venue a:link,
     .perf-info .venue a:visited {
       color: #e6dfd2;
-      text-decoration: none;
+      /* Underlined by default (not just on hover/focus) so these links
+         are distinguishable from the surrounding plain text without
+         relying on color alone. */
+      text-decoration: underline;
+      text-decoration-color: rgba(230,223,210,0.4);
     }
 
     .perf-info .venue a:hover,
@@ -726,7 +833,7 @@
     @media (max-width: 900px) {
       .perf-item-featured,
       .perf-item { grid-template-columns: 70px 1fr; }
-      .perf-item-featured .perf-feature-image {
+      .perf-item-featured .perf-feature-image-btn {
         grid-column: 1 / -1;
         width: 100%;
         max-width: 280px;
@@ -839,7 +946,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 6px;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 6px 10px;
       font-size: 0.62rem;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -931,7 +1042,7 @@
       .nav-links.open { display: flex; }
       .nav-links li { border-bottom: 1px solid rgba(201,168,76,0.15); }
       .nav-links li a { display: block; padding: 18px 0; font-size: 0.85rem; letter-spacing: 3px; }
-      .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; z-index: 101; background: none; border: none; padding: 4px; }
+      .hamburger { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; z-index: 101; background: none; border: none; min-width: 44px; min-height: 44px; }
       .hamburger span { display: block; width: 24px; height: 2px; background: var(--cream); transition: all 0.3s; }
       .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
       .hamburger.open span:nth-child(2) { opacity: 0; }
@@ -968,6 +1079,8 @@
 </head>
 <body>
 
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
   <!-- NAV -->
   <div class="nav-overlay" id="navOverlay"></div>
   <nav>
@@ -979,10 +1092,12 @@
       <li><a href="#performances">Performances</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
   </nav>
+
+  <main id="mainContent" tabindex="-1">
 
   <!-- HERO -->
   <section class="hero" id="home">
@@ -999,7 +1114,7 @@
   </section>
 
   <!-- ABOUT -->
-  <div id="about">
+  <section id="about">
     <div class="about-wrapper">
 
       <div class="about-top">
@@ -1012,7 +1127,7 @@
 
         <!-- Text -->
         <div class="about-text-col">
-          <p class="section-label">About</p>
+          <h2 class="section-label">About</h2>
           <div class="divider"></div>
 
           <p>
@@ -1023,7 +1138,7 @@
       </div>
 
     </div>
-  </div>
+  </section>
 
   <!-- GALLERY -->
   <section id="gallery" class="gallery-section">
@@ -1032,65 +1147,63 @@
         <p class="section-label">Photography</p>
         <h2 class="section-title">Gallery</h2>
         <div class="divider" style="margin: 28px auto;"></div>
+        <button type="button" class="gallery-pause-toggle" id="galleryPauseToggle" aria-pressed="false">
+          <i class="fas fa-pause" aria-hidden="true"></i>
+          <span>Pause</span>
+        </button>
       </div>
       <div class="gallery-carousel-wrapper">
         <div class="gallery-track" id="galleryTrack">
           <!-- original set -->
-          <div class="gallery-slide" onclick="openLightbox(0)">
-            <img src="images/DieFledermaus-JT.jpg" alt="Julia Perez Tooker in Die Fledermaus">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(1)">
-            <img src="images/20250703_193510000_iOS.jpg" alt="Julia Perez Tooker">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(2)">
-            <img src="images/IMG_4497.jpg" alt="Julia Perez Tooker">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(3)">
-            <img src="images/Julia_Portraits010_web.jpg" alt="Julia Perez Tooker">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(4)">
-            <img src="images/_8100718.jpg" alt="Julia Perez Tooker">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(5)">
-            <img src="images/JuliaTookerHeadshot.jpg" alt="Julia Perez Tooker">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(6)">
-            <img src="images/20250721_020716232_iOS_web.jpg" alt="Julia Perez Tooker">
-          </div>
-          <!-- duplicate set for seamless loop -->
-          <div class="gallery-slide" onclick="openLightbox(0)" aria-hidden="true">
+          <button type="button" class="gallery-slide" onclick="openLightbox(0)" aria-label="View larger photo: Julia Perez Tooker performing in a disco-themed scene from Die Fledermaus">
             <img src="images/DieFledermaus-JT.jpg" alt="">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(1)" aria-hidden="true">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(1)" aria-label="View larger photo: Julia Perez Tooker performing in a flamenco-style ensemble scene">
             <img src="images/20250703_193510000_iOS.jpg" alt="">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(2)" aria-hidden="true">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(2)" aria-label="View larger photo: Julia Perez Tooker in a fairy-tale stage scene">
             <img src="images/IMG_4497.jpg" alt="">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(3)" aria-hidden="true">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(3)" aria-label="View larger photo: Julia Perez Tooker in a formal garden portrait">
             <img src="images/Julia_Portraits010_web.jpg" alt="">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(4)" aria-hidden="true">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(4)" aria-label="View larger photo: Julia Perez Tooker singing at a cabaret performance">
             <img src="images/_8100718.jpg" alt="">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(5)" aria-hidden="true">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(5)" aria-label="View larger photo: Julia Perez Tooker studio headshot">
             <img src="images/JuliaTookerHeadshot.jpg" alt="">
-          </div>
-          <div class="gallery-slide" onclick="openLightbox(6)" aria-hidden="true">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(6)" aria-label="View larger photo: Julia Perez Tooker singing on stage in a yellow dress">
             <img src="images/20250721_020716232_iOS_web.jpg" alt="">
-          </div>
+          </button>
+          <!-- duplicate set for seamless loop - decorative, hidden and
+               unfocusable so screen readers and keyboard users only
+               ever encounter each photo once -->
+          <button type="button" class="gallery-slide" onclick="openLightbox(0)" tabindex="-1" aria-hidden="true">
+            <img src="images/DieFledermaus-JT.jpg" alt="">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(1)" tabindex="-1" aria-hidden="true">
+            <img src="images/20250703_193510000_iOS.jpg" alt="">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(2)" tabindex="-1" aria-hidden="true">
+            <img src="images/IMG_4497.jpg" alt="">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(3)" tabindex="-1" aria-hidden="true">
+            <img src="images/Julia_Portraits010_web.jpg" alt="">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(4)" tabindex="-1" aria-hidden="true">
+            <img src="images/_8100718.jpg" alt="">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(5)" tabindex="-1" aria-hidden="true">
+            <img src="images/JuliaTookerHeadshot.jpg" alt="">
+          </button>
+          <button type="button" class="gallery-slide" onclick="openLightbox(6)" tabindex="-1" aria-hidden="true">
+            <img src="images/20250721_020716232_iOS_web.jpg" alt="">
+          </button>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
-    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    <button class="lightbox-prev" onclick="shiftLightbox(-1)">&#8592;</button>
-    <img id="lightbox-img" src="" alt="Julia Perez Tooker">
-    <button class="lightbox-next" onclick="shiftLightbox(1)">&#8594;</button>
-  </div>
 
   <!-- REPERTOIRE -->
   <section id="repertoire">
@@ -1179,7 +1292,9 @@
             <span class="role-badge">Featured Soloist</span>
           </div>
         </div>
-        <img class="perf-feature-image" src="images/Sept27Concert.jpg" alt="Tree of Life, Tree of Colors concert poster" onclick="openLightbox(photos.length - 1)" />
+        <button type="button" class="perf-feature-image-btn" onclick="openLightbox(photos.length - 1)" aria-label="View larger image: Tree of Life, Tree of Colors concert poster">
+          <img src="images/Sept27Concert.jpg" alt="">
+        </button>
       </div>
 
       <!-- PAST -->
@@ -1381,13 +1496,23 @@
       </form>
       <!-- a href="#performances" class="btn btn-gold">View Full Calendar</a> -->
       <div class="social-links">
-        <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i><span>Instagram</span></a>
-        <a href="https://www.youtube.com/@juliatookersoprano" target="_blank" rel="noopener"><i class="fab fa-youtube"></i><span>YouTube</span></a>
-        <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
-        <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i><span>TikTok</span></a>
+        <a href="https://www.instagram.com/julia.tooker/" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
+        <a href="https://www.youtube.com/@juliatookersoprano" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i><span>YouTube</span></a>
+        <a href="https://www.facebook.com/julia.tooker.5" target="_blank" rel="noopener"><i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span></a>
+        <a href="https://www.tiktok.com/@juliayuuh" target="_blank" rel="noopener"><i class="fab fa-tiktok" aria-hidden="true"></i><span>TikTok</span></a>
       </div>
     </div>
   </section>
+
+  </main>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" onclick="closeLightboxOnBg(event)">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" onclick="shiftLightbox(-1)" aria-label="Previous image">&#8592;</button>
+    <img id="lightbox-img" src="" alt="Julia Perez Tooker">
+    <button class="lightbox-next" onclick="shiftLightbox(1)" aria-label="Next image">&#8594;</button>
+  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -1408,17 +1533,42 @@
     ];
 
     let current = 0;
+    let lightboxTrigger = null;
+
+    const mainEl = document.getElementById('mainContent');
+    const navBarEl = document.querySelector('nav');
+    const footerEl = document.querySelector('footer');
+
+    // Hides everything behind a modal overlay from assistive tech and
+    // keyboard focus (not just visually), so Tab/screen-reader browse
+    // mode can't wander into content that's covered by the dark
+    // backdrop. `inert` is a no-op (harmless) in browsers that predate
+    // it - background content just stays reachable there.
+    function setBackgroundInert(isInert) {
+      [mainEl, navBarEl, footerEl].forEach(el => { if (el) el.inert = isInert; });
+    }
 
     function openLightbox(index) {
       current = index;
+      lightboxTrigger = document.activeElement;
+      const lightbox = document.getElementById('lightbox');
       document.getElementById('lightbox-img').src = photos[current];
-      document.getElementById('lightbox').classList.add('active');
+      lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
+      setBackgroundInert(true);
+      lightbox.querySelector('.lightbox-close').focus();
     }
 
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('active');
       document.body.style.overflow = '';
+      setBackgroundInert(false);
+      // Skip restoring focus to a decorative duplicate slide (mouse
+      // clicks can focus even a tabindex="-1", aria-hidden button) -
+      // moving focus onto a hidden element is undefined behavior for
+      // assistive tech.
+      if (lightboxTrigger && !lightboxTrigger.hasAttribute('aria-hidden')) lightboxTrigger.focus();
+      lightboxTrigger = null;
     }
 
     function closeLightboxOnBg(e) {
@@ -1431,10 +1581,27 @@
     }
 
     document.addEventListener('keydown', e => {
-      if (!document.getElementById('lightbox').classList.contains('active')) return;
-      if (e.key === 'Escape') closeLightbox();
+      const lightbox = document.getElementById('lightbox');
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') { closeLightbox(); return; }
       if (e.key === 'ArrowLeft') shiftLightbox(-1);
       if (e.key === 'ArrowRight') shiftLightbox(1);
+
+      // Trap Tab/Shift+Tab within the lightbox's own controls while it's
+      // open, so keyboard focus can't slip out into the (now inert, but
+      // belt-and-suspenders) page behind it.
+      if (e.key === 'Tab') {
+        const focusable = Array.from(lightbox.querySelectorAll('button'));
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     });
 
     const hamburger = document.getElementById('hamburger');
@@ -1445,12 +1612,30 @@
       hamburger.classList.remove('open');
       navLinks.classList.remove('open');
       navOverlay.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.setAttribute('aria-label', 'Open menu');
+      if (mainEl) mainEl.inert = false;
+      if (footerEl) footerEl.inert = false;
+    }
+
+    function openMenu() {
+      navLinks.classList.add('open');
+      hamburger.classList.add('open');
+      navOverlay.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      hamburger.setAttribute('aria-label', 'Close menu');
+      // Keep nav itself interactive (the menu lives inside it) but lock
+      // out the page underneath so Tab can't escape the open panel.
+      if (mainEl) mainEl.inert = true;
+      if (footerEl) footerEl.inert = true;
     }
 
     hamburger.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      navOverlay.classList.toggle('open', isOpen);
+      if (navLinks.classList.contains('open')) closeMenu(); else openMenu();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) closeMenu();
     });
 
     navOverlay.addEventListener('click', closeMenu);
@@ -1462,7 +1647,6 @@
     // nav ending up scrolled into Repertoire instead). Computing the
     // offset live from the actual nav height at click time is robust
     // to that regardless of the exact cause.
-    const navEl = document.querySelector('nav');
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       const href = a.getAttribute('href');
       if (href.length < 2) return; // bare "#" — let it jump to the top natively
@@ -1470,9 +1654,15 @@
       if (!target) return;
       a.addEventListener('click', e => {
         e.preventDefault();
-        const top = target.getBoundingClientRect().top + window.pageYOffset - navEl.offsetHeight - 12;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - navBarEl.offsetHeight - 12;
         window.scrollTo({ top, behavior: 'smooth' });
         history.pushState(null, '', href);
+        // Move keyboard focus to the target too (not just the scroll
+        // position) - this is what actually makes the skip link useful,
+        // and it keeps focus and the visible scroll position in sync
+        // for every other in-page link as well.
+        if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+        target.focus({ preventScroll: true });
       });
     });
 
@@ -1553,6 +1743,18 @@
         }
       };
       imgs.forEach(img => img.complete ? restart() : img.addEventListener('load', restart));
+    }
+
+    // Lets touch and keyboard users pause the auto-scrolling gallery,
+    // not just mouse-hover users (see the .gallery-track CSS rules).
+    const galleryPauseToggle = document.getElementById('galleryPauseToggle');
+    if (galleryPauseToggle && track) {
+      galleryPauseToggle.addEventListener('click', () => {
+        const isPaused = track.classList.toggle('paused');
+        galleryPauseToggle.setAttribute('aria-pressed', String(isPaused));
+        galleryPauseToggle.querySelector('i').className = isPaused ? 'fas fa-play' : 'fas fa-pause';
+        galleryPauseToggle.querySelector('span').textContent = isPaused ? 'Play' : 'Pause';
+      });
     }
   </script>
 
