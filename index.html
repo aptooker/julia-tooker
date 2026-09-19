@@ -386,26 +386,44 @@
 
     /* The carousel auto-scrolls continuously, which WCAG 2.2.2 requires
        a pause control for (mouse hover alone doesn't help touch or
-       keyboard users). This button toggles the .paused class below. */
+       keyboard users). This button toggles the .paused class below.
+       Kept small and low-contrast by default (a corner utility, not a
+       CTA) but still meets the 44px touch-target minimum and gets
+       clearly visible on hover/focus. */
     .gallery-pause-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 3;
       display: flex;
       align-items: center;
-      gap: 8px;
-      min-width: 44px;
-      min-height: 44px;
-      margin: 0 auto;
-      padding: 8px 14px;
-      background: transparent;
-      border: 1px solid rgba(201,168,76,0.35);
-      color: var(--text-muted);
-      font-size: 0.68rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      padding: 4px;
+      background: rgba(14,14,14,0.5);
+      border: none;
+      border-radius: 50%;
+      color: var(--cream);
+      font-size: 0.85rem;
+      opacity: 0.55;
       cursor: pointer;
-      transition: color 0.3s, border-color 0.3s;
+      transition: opacity 0.2s, background 0.2s;
     }
 
-    .gallery-pause-toggle:hover { color: var(--gold); border-color: var(--gold); }
+    /* Enlarge the actual hit area to 44px without growing the visible
+       circle, so it stays unobtrusive but is still easy to tap. */
+    .gallery-pause-toggle::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+    }
+
+    .gallery-pause-toggle:hover,
+    .gallery-pause-toggle:focus-visible {
+      opacity: 1;
+      background: rgba(14,14,14,0.75);
+    }
 
     @keyframes galleryScroll {
       0%   { transform: translateX(0); }
@@ -1147,12 +1165,12 @@
         <p class="section-label">Photography</p>
         <h2 class="section-title">Gallery</h2>
         <div class="divider" style="margin: 28px auto;"></div>
-        <button type="button" class="gallery-pause-toggle" id="galleryPauseToggle" aria-pressed="false">
-          <i class="fas fa-pause" aria-hidden="true"></i>
-          <span>Pause</span>
-        </button>
       </div>
       <div class="gallery-carousel-wrapper">
+        <button type="button" class="gallery-pause-toggle" id="galleryPauseToggle" aria-pressed="false">
+          <i class="fas fa-pause" aria-hidden="true"></i>
+          <span class="sr-only">Pause</span>
+        </button>
         <div class="gallery-track" id="galleryTrack">
           <!-- original set -->
           <button type="button" class="gallery-slide" onclick="openLightbox(0)" aria-label="View larger photo: Julia Perez Tooker performing in a disco-themed scene from Die Fledermaus">
