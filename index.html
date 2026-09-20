@@ -573,7 +573,12 @@
       color: var(--gold);
     }
 
-    /* REPERTOIRE */
+    /* REPERTOIRE - tighter section padding than the sitewide default so
+       four cards' worth of lists don't force excess scrolling. */
+    #repertoire {
+      padding: clamp(36px, 5vw, 64px) clamp(24px, 5vw, 60px);
+    }
+
     .repertoire-section {
       max-width: 1200px;
       margin: 0 auto;
@@ -581,7 +586,7 @@
 
     .rep-header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 18px;
     }
 
     .rep-grid {
@@ -593,7 +598,7 @@
 
     .rep-card {
       background: var(--dark);
-      padding: 36px 40px;
+      padding: 22px 28px;
       position: relative;
       overflow: hidden;
       transition: background 0.3s;
@@ -615,21 +620,22 @@
 
     .rep-card h3 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 400;
       color: var(--cream);
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
 
-    .rep-list { margin-top: 16px; list-style: none; }
+    .rep-list { margin-top: 8px; list-style: none; }
 
     .rep-list li {
-      padding: 8px 0;
+      padding: 5px 0;
       border-bottom: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #b9b9b9;
       display: flex;
       justify-content: space-between;
+      gap: 12px;
     }
 
     .rep-list li:last-child { border-bottom: none; }
@@ -1133,6 +1139,10 @@
       .nav-overlay.open { display: block; }
       .hero-subtitle { letter-spacing: 3px; font-size: 0.72rem; }
       .about-top { grid-template-columns: 1fr; }
+      /* Text before photo when stacked, so tapping "About" from the
+         nav shows its heading right away (like every other section)
+         instead of a ~450px-tall photo before any confirming text. */
+      .about-text-col { order: -1; }
       .about-photo-col { max-width: 360px; margin: 0 auto; }
       .rep-grid { grid-template-columns: 1fr; }
       .gallery-slide { height: 340px; }
@@ -1151,7 +1161,7 @@
       .gallery-slide { height: 240px; }
       .gallery-carousel-wrapper::before,
       .gallery-carousel-wrapper::after { display: none; }
-      .rep-card { padding: 24px 20px; }
+      .rep-card { padding: 18px 20px; }
       footer { padding: 24px 20px; }
       /* Stack the signup form so the input gets full width for its
          placeholder text, instead of squeezing next to the button. */
@@ -1225,7 +1235,7 @@
           <div class="divider"></div>
 
           <p>
-            Julia is a crossover soprano and 2026 Vocal Performance graduate of the Eastman School of Music. Raised in Rochester, New York, she began her classical voice training at the Eastman Community Music School at the age of thirteen. She has a passion for exploring her Hispanic heritage through music, from Zarzuela opera arias to Puerto Rican boleros. Equally at home on the operatic stage and in musical theatre, some of her favorite performance highlights include Christine in <em>The Phantom of the Opera</em>, Cosette in <em>Les Misérables</em>, and Jeanette in <em>The Anonymous Lover</em>. Julia is a first-place winner in competitions spanning musical theatre, classical, and opera aria categories, and made her professional opera debut in 2025 as an Apprentice Artist with Finger Lakes Opera.
+            Julia is a crossover soprano and Vocal Performance graduate of the Eastman School of Music. Raised in Rochester, New York, she began her classical voice training at the Eastman Community Music School at the age of thirteen. She has a passion for exploring her Hispanic heritage through music, from Zarzuela opera arias to Puerto Rican boleros. Equally at home on the operatic stage and in musical theatre, some of her favorite performance highlights include Christine in <em>The Phantom of the Opera</em>, Cosette in <em>Les Misérables</em>, and Jeanette in <em>The Anonymous Lover</em>. Julia is a first-place winner in competitions spanning musical theatre, classical, and opera aria categories, and made her professional opera debut in 2025 as an Apprentice Artist with Finger Lakes Opera.
           </p>
 
         </div>
