@@ -1770,7 +1770,27 @@
 
     updateScrollSpacer();
     window.addEventListener('resize', updateScrollSpacer);
-    window.addEventListener('load', updateScrollSpacer);
+
+    // Recompute once everything that can shift page height has settled:
+    // every image loaded, and web fonts finished swapping in (Cormorant
+    // Garamond/Raleway can noticeably change heading heights once they
+    // load, well after the images do). The window 'load' event alone
+    // isn't reliable here either, since it can fire - and be missed, as
+    // this listener is registered late in the body - before this script
+    // even runs on a fast connection. A double rAF after both settle
+    // waits for the browser's own next paint/layout pass rather than
+    // guessing a fixed delay.
+    const allPageImages = document.querySelectorAll('img');
+    const imagesSettled = allPageImages.length === 0
+      ? Promise.resolve()
+      : Promise.all(Array.from(allPageImages, img => img.complete
+          ? Promise.resolve()
+          : new Promise(resolve => img.addEventListener('load', resolve, { once: true }))));
+    const fontsSettled = document.fonts ? document.fonts.ready : Promise.resolve();
+
+    Promise.all([imagesSettled, fontsSettled]).then(() => {
+      requestAnimationFrame(() => requestAnimationFrame(updateScrollSpacer));
+    });
 
     // Drive in-page section links ourselves instead of relying on the
     // browser's native #hash jump + scroll-margin-top: iOS Safari can
