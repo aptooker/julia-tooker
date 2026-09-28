@@ -12,14 +12,22 @@ test.describe('desktop nav links', () => {
   for (const id of SECTIONS) {
     test(`"${id}" link scrolls to and focuses #${id}`, async ({ page }) => {
       await page.goto('/');
-      // Let the page's layout fully settle (images, the Contact-reach
-      // scroll-spacer calc) before clicking, same as a real visitor
-      // would rather than clicking instantly on load.
-      await page.waitForTimeout(400);
+      // Wait for the same conditions the page's own scroll-spacer
+      // calculation waits for (every image loaded, fonts settled)
+      // before clicking - a fixed timeout here was flaky in CI, since
+      // exactly how long that takes varies with agent/machine speed.
+      await page.waitForFunction(() =>
+        document.fonts.status === 'loaded' && Array.from(document.images).every((img) => img.complete)
+      );
+      // A little extra headroom for the page's own double-rAF settle
+      // pass after those conditions are met.
+      await page.waitForTimeout(300);
       await page.locator(`a[href="#${id}"]`).first().click();
 
-      // Smooth-scroll needs a moment to finish before positions settle.
-      await page.waitForTimeout(800);
+      // Smooth-scroll needs a moment to finish before positions settle
+      // (more headroom than a fast local run needs, to stay reliable
+      // on slower CI agents).
+      await page.waitForTimeout(1200);
 
       const nav = page.locator('nav');
       const navHeight = await nav.evaluate((el) => el.offsetHeight);
