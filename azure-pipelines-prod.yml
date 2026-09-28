@@ -1,7 +1,14 @@
 # Prod pipeline: gate on main. Runs the same Playwright suite as the
 # dev pipeline, triggered on push/merge to main instead of every
-# branch. Doesn't deploy anything itself - GitHub Actions still owns
-# the live GitHub Pages deploy; this is the pre-release check.
+# branch, then deploys to a production-trial Azure Static Web App
+# (julia-tooker-site-prod) - NOT the live julia-tooker.com site, which
+# still deploys via GitHub Actions/GitHub Pages untouched. This is a
+# side-by-side trial: verify the Azure-hosted copy looks/works
+# identically before ever touching the real domain's DNS.
+#
+# Unlike dev, the deploy step here has no continueOnError/always()
+# override - a failing test blocks the deploy, same as a real
+# production gate would.
 trigger:
   branches:
     include:
@@ -41,3 +48,19 @@ steps:
       targetPath: 'playwright-report'
       artifact: 'playwright-report'
     displayName: 'Publish HTML report'
+
+  # No condition override here (default is succeeded()) - if the tests
+  # above failed, this step - and the deploy - is skipped entirely.
+  - script: |
+      mkdir -p dist
+      cp index.html staticwebapp.config.json dist/
+      cp -r images dist/
+    displayName: 'Stage static site files for deploy'
+
+  - task: AzureStaticWebApp@0
+    inputs:
+      app_location: 'dist'
+      output_location: ''
+      skip_app_build: true
+      azure_static_web_apps_api_token: $(SWA_PROD_DEPLOYMENT_TOKEN)
+    displayName: 'Deploy to production-trial Static Web App'
