@@ -1,6 +1,9 @@
 # Dev pipeline: fast feedback on every push to a non-main branch.
-# Runs the Playwright suite against the static site; doesn't deploy
-# anything (GitHub Actions still owns the live GitHub Pages deploy).
+# Runs the Playwright suite against the static site, then deploys it
+# to a separate dev/staging Azure Static Web App (julia-tooker-site-
+# 2d1a71) so you can actually browse what's on this branch. This is
+# independent of the live production site, which GitHub Actions still
+# deploys to GitHub Pages untouched.
 trigger:
   branches:
     include:
@@ -46,3 +49,24 @@ steps:
       targetPath: 'playwright-report'
       artifact: 'playwright-report'
     displayName: 'Publish HTML report'
+
+  # Deploys regardless of test outcome (always()) so the dev site
+  # always reflects the latest push - useful for visually checking a
+  # change even when a test or two is red. Only the actual site files
+  # are staged (not api/, tests/, node_modules, etc.) so the deploy
+  # stays small and doesn't publish unrelated project files.
+  - script: |
+      mkdir -p dist
+      cp index.html staticwebapp.config.json dist/
+      cp -r images dist/
+    condition: always()
+    displayName: 'Stage static site files for deploy'
+
+  - task: AzureStaticWebApp@0
+    condition: always()
+    inputs:
+      app_location: 'dist'
+      output_location: ''
+      skip_app_build: true
+      azure_static_web_apps_api_token: $(SWA_DEV_DEPLOYMENT_TOKEN)
+    displayName: 'Deploy to dev Static Web App'
