@@ -5,7 +5,11 @@ module.exports = defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? [['html', { open: 'never' }], ['list']] : 'list',
+  // junit.xml feeds Azure Pipelines' native "Tests" tab (PublishTestResults
+  // task); the HTML report is published separately as a pipeline artifact.
+  reporter: process.env.CI
+    ? [['html', { open: 'never' }], ['junit', { outputFile: 'junit.xml' }], ['list']]
+    : 'list',
 
   use: {
     baseURL: 'http://127.0.0.1:4173',

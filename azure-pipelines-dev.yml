@@ -1,0 +1,48 @@
+# Dev pipeline: fast feedback on every push to a non-main branch.
+# Runs the Playwright suite against the static site; doesn't deploy
+# anything (GitHub Actions still owns the live GitHub Pages deploy).
+trigger:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: 'Install Node.js'
+
+  - script: npm ci
+    displayName: 'Install test dependencies'
+
+  - script: npx playwright install --with-deps chromium webkit
+    displayName: 'Install Playwright browsers'
+
+  # Soft gate: a failing test surfaces in the Tests tab below but
+  # doesn't turn the whole run red while you're actively iterating.
+  # The prod pipeline (triggered on main) is strict instead.
+  - script: npx playwright test
+    displayName: 'Run Playwright tests'
+    continueOnError: true
+    env:
+      CI: 'true'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/junit.xml'
+      failTaskOnFailedTests: false
+    displayName: 'Publish test results'
+
+  - task: PublishPipelineArtifact@1
+    condition: succeededOrFailed()
+    inputs:
+      targetPath: 'playwright-report'
+      artifact: 'playwright-report'
+    displayName: 'Publish HTML report'
