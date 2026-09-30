@@ -1605,7 +1605,7 @@
   </main>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" onclick="closeLightboxOnBg(event)">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
     <button class="lightbox-prev" onclick="shiftLightbox(-1)" aria-label="Previous image">&#8592;</button>
     <img id="lightbox-img" src="" alt="Julia Perez Tooker">
@@ -1674,10 +1674,6 @@
       // assistive tech.
       if (lightboxTrigger && !lightboxTrigger.hasAttribute('aria-hidden')) lightboxTrigger.focus();
       lightboxTrigger = null;
-    }
-
-    function closeLightboxOnBg(e) {
-      if (e.target === document.getElementById('lightbox')) closeLightbox();
     }
 
     function shiftLightbox(dir) {
