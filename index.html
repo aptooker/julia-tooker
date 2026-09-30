@@ -801,6 +801,16 @@
       text-decoration: none;
     }
 
+    /* Flags a link as opening a PDF (a separate viewer/program, and
+       PDFs have their own accessibility caveats) rather than another
+       page on the site - visible warning, not just implied by the URL. */
+    .pdf-tag {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.75rem;
+      font-style: normal;
+      color: var(--text-muted);
+    }
+
     .perf-info .venue {
       font-size: 0.8rem;
       color: #e6dfd2;
@@ -1414,7 +1424,7 @@
           <span class="day day-sm">2026</span>
         </div>
         <div class="perf-info">
-          <h3><a href="https://static1.squarespace.com/static/5b7597c31aef1daead58d1ba/t/6a7636117a61d659a9f87efd/1786131985930/PM+ITW+Program-4.pdf" target="_blank" rel="noreferrer">Into the Woods — Pittsford Musicals</a></h3>
+          <h3><a href="https://static1.squarespace.com/static/5b7597c31aef1daead58d1ba/t/6a7636117a61d659a9f87efd/1786131985930/PM+ITW+Program-4.pdf" target="_blank" rel="noreferrer">Into the Woods — Pittsford Musicals <span class="pdf-tag">(PDF)</span></a></h3>
           <div class="venue">Pittsford Sutherland Theatre &nbsp;&middot;&nbsp; Pittsford, NY</div>
           <div class="perf-badges">
             <span class="role-badge">Rapunzel</span>
